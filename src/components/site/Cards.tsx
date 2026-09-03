@@ -58,39 +58,93 @@ export function FilmCard({ film }: { film: FilmCategory }) {
 }
 
 export function ProductCard({ product }: { product: Product }) {
+  const ref = useRef<HTMLAnchorElement>(null);
+  const frame = useRef<number | null>(null);
+  const [interactive, setInteractive] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const fine = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const calm = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setInteractive(fine.matches && !calm.matches);
+    update();
+    fine.addEventListener("change", update);
+    calm.addEventListener("change", update);
+    return () => {
+      fine.removeEventListener("change", update);
+      calm.removeEventListener("change", update);
+    };
+  }, []);
+
+  const handleMove = (e: React.PointerEvent<HTMLAnchorElement>) => {
+    if (!interactive) return;
+    const el = ref.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const px = (e.clientX - rect.left) / rect.width;
+    const py = (e.clientY - rect.top) / rect.height;
+    if (frame.current) cancelAnimationFrame(frame.current);
+    frame.current = requestAnimationFrame(() => {
+      el.style.setProperty("--rx", `${(0.5 - py) * 12}deg`);
+      el.style.setProperty("--ry", `${(px - 0.5) * 12}deg`);
+      el.style.setProperty("--mx", `${px * 100}%`);
+      el.style.setProperty("--my", `${py * 100}%`);
+      el.style.setProperty("--tx", `${(px - 0.5) * 10}px`);
+      el.style.setProperty("--ty", `${(py - 0.5) * 10}px`);
+      el.style.setProperty("--glow", "1");
+    });
+  };
+
+  const handleLeave = () => {
+    const el = ref.current;
+    if (!el) return;
+    if (frame.current) cancelAnimationFrame(frame.current);
+    el.style.setProperty("--rx", "0deg");
+    el.style.setProperty("--ry", "0deg");
+    el.style.setProperty("--tx", "0px");
+    el.style.setProperty("--ty", "0px");
+    el.style.setProperty("--glow", "0");
+  };
+
   return (
-    <Link
-      to="/products/$slug"
-      params={{ slug: product.slug }}
-      className="card-lift card-shimmer group relative flex flex-col overflow-hidden border border-border/60 glass-card hover:border-primary/40"
-    >
-      <div className="media-zoom aspect-square w-full">
-        <img
-          src={product.image}
-          alt={product.name}
-          loading="lazy"
-          className="size-full object-cover"
-        />
-      </div>
-      <div className="relative flex flex-1 flex-col p-5">
-        <span className="text-[0.65rem] tracking-[0.2em] text-muted-foreground uppercase">
-          {product.brand}
-        </span>
-        <h3 className="mt-2 font-display text-base font-medium">{product.name}</h3>
-        <p className="mt-2 flex-1 text-sm text-muted-foreground">{product.category}</p>
-        <div className="mt-5 flex items-center justify-between text-xs transition-transform duration-500 group-hover:-translate-y-0.5">
-          <span className="font-display text-primary">
-            {product.price === null
-              ? "Цена по запросу"
-              : `${product.price.toLocaleString("ru-RU")} сом`}
-          </span>
-          <span className="inline-flex items-center gap-1.5 text-muted-foreground">
-            {availabilityLabel[product.availability]}
-            <ArrowUpRight className="size-3.5 opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:opacity-100" />
-          </span>
+    <div className="tilt-scene">
+      <Link
+        ref={ref}
+        to="/products/$slug"
+        params={{ slug: product.slug }}
+        onPointerMove={handleMove}
+        onPointerLeave={handleLeave}
+        className="tilt-card group relative flex h-full flex-col overflow-hidden rounded-lg border border-white/10 glass-card"
+      >
+        <span aria-hidden className="tilt-sheen" />
+        <div className="tilt-depth relative aspect-square w-full overflow-hidden">
+          <img
+            src={product.image}
+            alt={product.name}
+            loading="lazy"
+            className="tilt-image size-full object-cover"
+          />
         </div>
-      </div>
-    </Link>
+        <div className="tilt-content relative flex flex-1 flex-col p-5">
+          <span className="text-[0.65rem] tracking-[0.2em] text-muted-foreground uppercase">
+            {product.brand}
+          </span>
+          <h3 className="mt-2 font-display text-base font-medium">{product.name}</h3>
+          <p className="mt-2 flex-1 text-sm text-muted-foreground">{product.category}</p>
+          <div className="mt-5 flex items-center justify-between text-xs">
+            <span className="font-display text-primary">
+              {product.price === null
+                ? "Цена по запросу"
+                : `${product.price.toLocaleString("ru-RU")} сом`}
+            </span>
+            <span className="inline-flex items-center gap-1.5 text-muted-foreground">
+              {availabilityLabel[product.availability]}
+              <ArrowUpRight className="size-3.5 opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:opacity-100" />
+            </span>
+          </div>
+        </div>
+      </Link>
+    </div>
   );
 }
 
