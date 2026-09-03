@@ -268,7 +268,6 @@ function Index() {
                 <iframe
                   title="Карта — LUXFIL"
                   src={site.map}
-                  loading="lazy"
                   className="absolute inset-0 size-full border-0 grayscale contrast-125 transition-[filter] duration-500 group-hover:grayscale-0"
                 />
                 <a
