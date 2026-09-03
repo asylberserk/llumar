@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as ContactsRouteImport } from './routes/contacts'
 import { Route as FilmsRouteImport } from './routes/films'
 import { Route as LlumarRouteImport } from './routes/llumar'
@@ -20,6 +21,8 @@ import { Route as ProductsRouteImport } from './routes/products'
 import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
 import { Route as ProductsSlugRouteImport } from './routes/products.$slug'
 import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
@@ -36,6 +39,11 @@ const IndexRoute = IndexRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactsRoute = ContactsRouteImport.update({
@@ -84,6 +92,16 @@ const Char91DotwellKnownChar93OauthProtectedResourceRoute =
     path: '/.well-known/oauth-protected-resource',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => AdminRoute,
+} as any)
 const ProductsIndexRoute = ProductsIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -123,6 +141,7 @@ const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/contacts': typeof ContactsRoute
   '/films': typeof FilmsRoute
   '/llumar': typeof LlumarRoute
@@ -132,9 +151,11 @@ export interface FileRoutesByFullPath {
   '/projects': typeof ProjectsRouteWithChildren
   '/services': typeof ServicesRouteWithChildren
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/admin/login': typeof AdminLoginRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/products/': typeof ProductsIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/services/': typeof ServicesIndexRoute
@@ -149,9 +170,11 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/mcp': typeof McpRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/admin/login': typeof AdminLoginRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/admin': typeof AdminIndexRoute
   '/products': typeof ProductsIndexRoute
   '/projects': typeof ProjectsIndexRoute
   '/services': typeof ServicesIndexRoute
@@ -161,6 +184,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/contacts': typeof ContactsRoute
   '/films': typeof FilmsRoute
   '/llumar': typeof LlumarRoute
@@ -170,9 +194,11 @@ export interface FileRoutesById {
   '/projects': typeof ProjectsRouteWithChildren
   '/services': typeof ServicesRouteWithChildren
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/admin/login': typeof AdminLoginRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/products/': typeof ProductsIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/services/': typeof ServicesIndexRoute
@@ -183,6 +209,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/admin'
     | '/contacts'
     | '/films'
     | '/llumar'
@@ -192,9 +219,11 @@ export interface FileRouteTypes {
     | '/projects'
     | '/services'
     | '/.well-known/oauth-protected-resource'
+    | '/admin/login'
     | '/products/$slug'
     | '/projects/$slug'
     | '/services/$slug'
+    | '/admin/'
     | '/products/'
     | '/projects/'
     | '/services/'
@@ -209,9 +238,11 @@ export interface FileRouteTypes {
     | '/login'
     | '/mcp'
     | '/.well-known/oauth-protected-resource'
+    | '/admin/login'
     | '/products/$slug'
     | '/projects/$slug'
     | '/services/$slug'
+    | '/admin'
     | '/products'
     | '/projects'
     | '/services'
@@ -220,6 +251,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/admin'
     | '/contacts'
     | '/films'
     | '/llumar'
@@ -229,9 +261,11 @@ export interface FileRouteTypes {
     | '/projects'
     | '/services'
     | '/.well-known/oauth-protected-resource'
+    | '/admin/login'
     | '/products/$slug'
     | '/projects/$slug'
     | '/services/$slug'
+    | '/admin/'
     | '/products/'
     | '/projects/'
     | '/services/'
@@ -241,6 +275,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AdminRoute: typeof AdminRouteWithChildren
   ContactsRoute: typeof ContactsRoute
   FilmsRoute: typeof FilmsRoute
   LlumarRoute: typeof LlumarRoute
@@ -267,6 +302,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contacts': {
@@ -332,6 +374,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/products/': {
       id: '/products/'
       path: '/'
@@ -384,6 +440,18 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AdminRouteChildren {
+  AdminLoginRoute: typeof AdminLoginRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminLoginRoute: AdminLoginRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 interface ProductsRouteChildren {
   ProductsSlugRoute: typeof ProductsSlugRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
@@ -429,6 +497,7 @@ const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AdminRoute: AdminRouteWithChildren,
   ContactsRoute: ContactsRoute,
   FilmsRoute: FilmsRoute,
   LlumarRoute: LlumarRoute,

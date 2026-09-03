@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -135,19 +136,25 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isAdmin = pathname.startsWith("/admin");
 
   return (
     <QueryClientProvider client={queryClient}>
       <ConsultProvider>
-        <Navigation />
+        {isAdmin ? null : <Navigation />}
         <main className="min-h-screen">
           {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
           <Outlet />
         </main>
-        <div className="pb-[calc(3.5rem+env(safe-area-inset-bottom))] sm:pb-0">
-          <Footer />
-        </div>
-        <MobileCta />
+        {isAdmin ? null : (
+          <>
+            <div className="pb-[calc(3.5rem+env(safe-area-inset-bottom))] sm:pb-0">
+              <Footer />
+            </div>
+            <MobileCta />
+          </>
+        )}
       </ConsultProvider>
     </QueryClientProvider>
   );

@@ -6,6 +6,8 @@ import { ProductCard } from "@/components/site/Cards";
 import { PageHeader } from "@/components/site/PageHeader";
 import { Reveal } from "@/components/site/Reveal";
 import { cn } from "@/lib/utils";
+import { useQuery } from "@tanstack/react-query";
+import { fetchPublishedProducts, rowToProduct } from "@/lib/adminProducts";
 
 export const Route = createFileRoute("/products/")({
   head: () => ({
@@ -32,9 +34,19 @@ function ProductsIndex() {
   const [category, setCategory] = useState("Все");
   const [query, setQuery] = useState("");
 
+  const { data: dbRows = [] } = useQuery({
+    queryKey: ["catalog-products"],
+    queryFn: fetchPublishedProducts,
+  });
+
+  const allProducts = useMemo(() => {
+    const fallback = products[0]?.image ?? "";
+    return [...dbRows.map((row) => rowToProduct(row, fallback)), ...products];
+  }, [dbRows]);
+
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return products.filter((p) => {
+    return allProducts.filter((p) => {
       const byCategory = category === "Все" || p.category === category;
       const byQuery =
         q.length === 0 ||
@@ -44,7 +56,7 @@ function ProductsIndex() {
           .includes(q);
       return byCategory && byQuery;
     });
-  }, [category, query]);
+  }, [allProducts, category, query]);
 
   return (
     <>
