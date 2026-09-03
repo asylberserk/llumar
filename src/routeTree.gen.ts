@@ -14,6 +14,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as ContactsRouteImport } from './routes/contacts'
 import { Route as FilmsRouteImport } from './routes/films'
 import { Route as LlumarRouteImport } from './routes/llumar'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as ProductsRouteImport } from './routes/products'
 import { Route as ProjectsRouteImport } from './routes/projects'
@@ -49,6 +50,11 @@ const FilmsRoute = FilmsRouteImport.update({
 const LlumarRoute = LlumarRouteImport.update({
   id: '/llumar',
   path: '/llumar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const McpRoute = McpRouteImport.update({
@@ -114,6 +120,7 @@ export interface FileRoutesByFullPath {
   '/contacts': typeof ContactsRoute
   '/films': typeof FilmsRoute
   '/llumar': typeof LlumarRoute
+  '/login': typeof LoginRoute
   '/mcp': typeof McpRoute
   '/products': typeof ProductsRouteWithChildren
   '/projects': typeof ProjectsRouteWithChildren
@@ -132,6 +139,7 @@ export interface FileRoutesByTo {
   '/contacts': typeof ContactsRoute
   '/films': typeof FilmsRoute
   '/llumar': typeof LlumarRoute
+  '/login': typeof LoginRoute
   '/mcp': typeof McpRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/products/$slug': typeof ProductsSlugRoute
@@ -148,6 +156,7 @@ export interface FileRoutesById {
   '/contacts': typeof ContactsRoute
   '/films': typeof FilmsRoute
   '/llumar': typeof LlumarRoute
+  '/login': typeof LoginRoute
   '/mcp': typeof McpRoute
   '/products': typeof ProductsRouteWithChildren
   '/projects': typeof ProjectsRouteWithChildren
@@ -168,6 +177,7 @@ export interface FileRouteTypes {
     | '/contacts'
     | '/films'
     | '/llumar'
+    | '/login'
     | '/mcp'
     | '/products'
     | '/projects'
@@ -186,6 +196,7 @@ export interface FileRouteTypes {
     | '/contacts'
     | '/films'
     | '/llumar'
+    | '/login'
     | '/mcp'
     | '/.well-known/oauth-protected-resource'
     | '/products/$slug'
@@ -201,6 +212,7 @@ export interface FileRouteTypes {
     | '/contacts'
     | '/films'
     | '/llumar'
+    | '/login'
     | '/mcp'
     | '/products'
     | '/projects'
@@ -220,6 +232,7 @@ export interface RootRouteChildren {
   ContactsRoute: typeof ContactsRoute
   FilmsRoute: typeof FilmsRoute
   LlumarRoute: typeof LlumarRoute
+  LoginRoute: typeof LoginRoute
   McpRoute: typeof McpRoute
   ProductsRoute: typeof ProductsRouteWithChildren
   ProjectsRoute: typeof ProjectsRouteWithChildren
@@ -262,6 +275,13 @@ declare module '@tanstack/react-router' {
       path: '/llumar'
       fullPath: '/llumar'
       preLoaderRoute: typeof LlumarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mcp': {
@@ -392,6 +412,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactsRoute: ContactsRoute,
   FilmsRoute: FilmsRoute,
   LlumarRoute: LlumarRoute,
+  LoginRoute: LoginRoute,
   McpRoute: McpRoute,
   ProductsRoute: ProductsRouteWithChildren,
   ProjectsRoute: ProjectsRouteWithChildren,
