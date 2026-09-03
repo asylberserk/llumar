@@ -34,26 +34,18 @@ export function ServiceCard({ service }: { service: Service }) {
 
 export function FilmCard({ film }: { film: FilmCategory }) {
   return (
-    <article className="card-lift flex flex-col border border-border bg-surface hover:border-primary/50">
-      <div className="media-zoom aspect-[16/10] w-full">
+    <article className="group flex h-full flex-col">
+      <div className="media-zoom aspect-[3/4] w-full overflow-hidden rounded-2xl">
         <img src={film.image} alt={film.title} loading="lazy" className="size-full object-cover" />
       </div>
-      <div className="flex flex-1 flex-col p-6">
-        <span className="eyebrow">{film.brand}</span>
-        <h3 className="mt-3 font-display text-xl font-medium">{film.title}</h3>
-        <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
+      <div className="flex flex-1 flex-col pt-5">
+        <h3 className="font-display text-lg font-medium">{film.title}</h3>
+        <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
           {film.description}
         </p>
-        <dl className="hairline mt-6 grid grid-cols-2 gap-4 pt-5 text-xs">
-          <div>
-            <dt className="text-muted-foreground">Применение</dt>
-            <dd className="mt-1 text-foreground">{film.application}</dd>
-          </div>
-          <div>
-            <dt className="text-muted-foreground">Технология</dt>
-            <dd className="mt-1 text-foreground">{film.technology}</dd>
-          </div>
-        </dl>
+        <p className="mt-4 text-xs tracking-[0.14em] text-muted-foreground uppercase">
+          {film.application}
+        </p>
       </div>
     </article>
   );
