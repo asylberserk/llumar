@@ -14,15 +14,19 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as ContactsRouteImport } from './routes/contacts'
 import { Route as FilmsRouteImport } from './routes/films'
 import { Route as LlumarRouteImport } from './routes/llumar'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as McpRouteImport } from './routes/mcp'
 import { Route as ProductsRouteImport } from './routes/products'
 import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
 import { Route as ProductsSlugRouteImport } from './routes/products.$slug'
 import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
 import { Route as ProjectsSlugRouteImport } from './routes/projects.$slug'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
+import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -49,6 +53,16 @@ const LlumarRoute = LlumarRouteImport.update({
   path: '/llumar',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const McpRoute = McpRouteImport.update({
+  id: '/mcp',
+  path: '/mcp',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProductsRoute = ProductsRouteImport.update({
   id: '/products',
   path: '/products',
@@ -64,6 +78,12 @@ const ServicesRoute = ServicesRouteImport.update({
   path: '/services',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Char91DotwellKnownChar93OauthProtectedResourceRoute =
+  Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
+    id: '/.well-known/oauth-protected-resource',
+    path: '/.well-known/oauth-protected-resource',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ProductsIndexRoute = ProductsIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -94,6 +114,11 @@ const ServicesSlugRoute = ServicesSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => ServicesRoute,
 } as any)
+const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
+  id: '/.lovable/oauth/consent',
+  path: '/.lovable/oauth/consent',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -101,15 +126,19 @@ export interface FileRoutesByFullPath {
   '/contacts': typeof ContactsRoute
   '/films': typeof FilmsRoute
   '/llumar': typeof LlumarRoute
+  '/login': typeof LoginRoute
+  '/mcp': typeof McpRoute
   '/products': typeof ProductsRouteWithChildren
   '/projects': typeof ProjectsRouteWithChildren
   '/services': typeof ServicesRouteWithChildren
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/products/': typeof ProductsIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/services/': typeof ServicesIndexRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -117,12 +146,16 @@ export interface FileRoutesByTo {
   '/contacts': typeof ContactsRoute
   '/films': typeof FilmsRoute
   '/llumar': typeof LlumarRoute
+  '/login': typeof LoginRoute
+  '/mcp': typeof McpRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/products': typeof ProductsIndexRoute
   '/projects': typeof ProjectsIndexRoute
   '/services': typeof ServicesIndexRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -131,15 +164,19 @@ export interface FileRoutesById {
   '/contacts': typeof ContactsRoute
   '/films': typeof FilmsRoute
   '/llumar': typeof LlumarRoute
+  '/login': typeof LoginRoute
+  '/mcp': typeof McpRoute
   '/products': typeof ProductsRouteWithChildren
   '/projects': typeof ProjectsRouteWithChildren
   '/services': typeof ServicesRouteWithChildren
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/products/': typeof ProductsIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/services/': typeof ServicesIndexRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -149,15 +186,19 @@ export interface FileRouteTypes {
     | '/contacts'
     | '/films'
     | '/llumar'
+    | '/login'
+    | '/mcp'
     | '/products'
     | '/projects'
     | '/services'
+    | '/.well-known/oauth-protected-resource'
     | '/products/$slug'
     | '/projects/$slug'
     | '/services/$slug'
     | '/products/'
     | '/projects/'
     | '/services/'
+    | '/.lovable/oauth/consent'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -165,12 +206,16 @@ export interface FileRouteTypes {
     | '/contacts'
     | '/films'
     | '/llumar'
+    | '/login'
+    | '/mcp'
+    | '/.well-known/oauth-protected-resource'
     | '/products/$slug'
     | '/projects/$slug'
     | '/services/$slug'
     | '/products'
     | '/projects'
     | '/services'
+    | '/.lovable/oauth/consent'
   id:
     | '__root__'
     | '/'
@@ -178,15 +223,19 @@ export interface FileRouteTypes {
     | '/contacts'
     | '/films'
     | '/llumar'
+    | '/login'
+    | '/mcp'
     | '/products'
     | '/projects'
     | '/services'
+    | '/.well-known/oauth-protected-resource'
     | '/products/$slug'
     | '/projects/$slug'
     | '/services/$slug'
     | '/products/'
     | '/projects/'
     | '/services/'
+    | '/.lovable/oauth/consent'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -195,9 +244,13 @@ export interface RootRouteChildren {
   ContactsRoute: typeof ContactsRoute
   FilmsRoute: typeof FilmsRoute
   LlumarRoute: typeof LlumarRoute
+  LoginRoute: typeof LoginRoute
+  McpRoute: typeof McpRoute
   ProductsRoute: typeof ProductsRouteWithChildren
   ProjectsRoute: typeof ProjectsRouteWithChildren
   ServicesRoute: typeof ServicesRouteWithChildren
+  Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -237,6 +290,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LlumarRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mcp': {
+      id: '/mcp'
+      path: '/mcp'
+      fullPath: '/mcp'
+      preLoaderRoute: typeof McpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/products': {
       id: '/products'
       path: '/products'
@@ -256,6 +323,13 @@ declare module '@tanstack/react-router' {
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/.well-known/oauth-protected-resource': {
+      id: '/.well-known/oauth-protected-resource'
+      path: '/.well-known/oauth-protected-resource'
+      fullPath: '/.well-known/oauth-protected-resource'
+      preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/products/': {
@@ -299,6 +373,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/services/$slug'
       preLoaderRoute: typeof ServicesSlugRouteImport
       parentRoute: typeof ServicesRoute
+    }
+    '/.lovable/oauth/consent': {
+      id: '/.lovable/oauth/consent'
+      path: '/.lovable/oauth/consent'
+      fullPath: '/.lovable/oauth/consent'
+      preLoaderRoute: typeof DotlovableOauthConsentRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
@@ -351,9 +432,14 @@ const rootRouteChildren: RootRouteChildren = {
   ContactsRoute: ContactsRoute,
   FilmsRoute: FilmsRoute,
   LlumarRoute: LlumarRoute,
+  LoginRoute: LoginRoute,
+  McpRoute: McpRoute,
   ProductsRoute: ProductsRouteWithChildren,
   ProjectsRoute: ProjectsRouteWithChildren,
   ServicesRoute: ServicesRouteWithChildren,
+  Char91DotwellKnownChar93OauthProtectedResourceRoute:
+    Char91DotwellKnownChar93OauthProtectedResourceRoute,
+  DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

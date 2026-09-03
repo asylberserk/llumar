@@ -1,0 +1,125 @@
+{
+  "version": 1,
+  "sdk_version": "1.0.0",
+  "path": "/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://ijozswzyegamksvskvtw.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "21st-dev-api-setup",
+      "version": "0.1.0",
+      "title": "21st Dev API Setup"
+    },
+    "tools": [
+      {
+        "name": "list_services",
+        "title": "Услуги LUXFIL",
+        "description": "Список услуг студии LUXFIL: защита кузова, тонирование, детейлинг и другое.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "slug": {
+              "description": "Слаг конкретной услуги, чтобы вернуть только её.",
+              "type": "string"
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_films",
+        "title": "Каталог плёнок",
+        "description": "Категории защитных и тонировочных плёнок LUXFIL с брендом и технологией.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "application": {
+              "description": "Фильтр по применению, например «Кузов».",
+              "type": "string"
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_products",
+        "title": "Оборудование и расходники",
+        "description": "Каталог товаров LUXFIL: инструмент, плёнки, химия, расходники, оборудование.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "category": {
+              "description": "Фильтр по категории, например «Инструмент».",
+              "type": "string"
+            },
+            "query": {
+              "description": "Поиск по названию, описанию и тегам.",
+              "type": "string"
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_projects",
+        "title": "Выполненные работы",
+        "description": "Портфолио LUXFIL: автомобиль, услуга, материал и краткое описание работы.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "category": {
+              "description": "Фильтр по категории работ, например «Тонирование».",
+              "type": "string"
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_company_info",
+        "title": "Контакты и информация о компании",
+        "description": "Контакты LUXFIL: телефон, email, адрес, часы работы и мессенджеры.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
