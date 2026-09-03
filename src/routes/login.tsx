@@ -30,7 +30,7 @@ export const Route = createFileRoute("/login")({
 });
 
 function LoginPage() {
-  const { next } = Route.useSearch();
+  const next = Route.useSearch()["next"];
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [mode, setMode] = useState<"signin" | "signup">("signin");

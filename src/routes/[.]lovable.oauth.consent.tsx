@@ -31,7 +31,7 @@ export const Route = createFileRoute("/.lovable/oauth/consent")({
     authorization_id: typeof s.authorization_id === "string" ? s.authorization_id : "",
   }),
   beforeLoad: async ({ search, location }) => {
-    if (!search.authorization_id) throw new Error("Отсутствует authorization_id");
+    if (!search["authorization_id"]) throw new Error("Отсутствует authorization_id");
     const { data } = await supabase.auth.getSession();
     const next = location.pathname + location.searchStr;
     if (!data.session) throw redirect({ to: "/login", search: { next } });
@@ -57,7 +57,7 @@ export const Route = createFileRoute("/.lovable/oauth/consent")({
 
 function Consent() {
   const details = Route.useLoaderData();
-  const { authorization_id } = Route.useSearch();
+  const authorizationId = Route.useSearch()["authorization_id"];
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const clientName = details?.client?.name ?? "приложение";
@@ -67,8 +67,8 @@ function Consent() {
     setError(null);
     const api = oauthApi();
     const { data, error: err } = approve
-      ? await api.approveAuthorization(authorization_id)
-      : await api.denyAuthorization(authorization_id);
+      ? await api.approveAuthorization(authorizationId)
+      : await api.denyAuthorization(authorizationId);
     if (err) {
       setBusy(false);
       setError(err.message);
