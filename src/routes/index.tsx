@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowDown } from "lucide-react";
-import heroCar from "@/assets/hero-car.jpg";
 import logo from "@/assets/luxfil-logo.png.asset.json";
 import rolls from "@/assets/film-rolls.jpg";
 import studio from "@/assets/studio.jpg";
@@ -48,13 +47,6 @@ function Index() {
   return (
     <>
       <section className="relative flex min-h-[94vh] items-end overflow-hidden">
-        <img
-          src={heroCar}
-          alt="Автомобиль в детейлинг-студии LUXFIL"
-          width={1920}
-          height={1080}
-          className="absolute inset-0 size-full scale-105 object-cover"
-        />
         <div className="hero-veil absolute inset-0" />
         <div className="shell relative w-full pt-40 pb-20 md:pb-28">
           <div className="flex items-center gap-4">
@@ -94,7 +86,7 @@ function Index() {
       <section className="border-b border-border py-16 md:py-20">
         <div className="shell grid gap-px overflow-hidden border border-border bg-border md:grid-cols-4">
           {values.map((v, i) => (
-            <Reveal key={v.title} delay={i * 80} className="bg-background p-7 md:p-8">
+            <Reveal key={v.title} delay={i * 80} className="bg-background/55 p-7 backdrop-blur-sm md:p-8">
               <h2 className="font-display text-sm tracking-[0.18em] text-primary uppercase">
                 {v.title}
               </h2>
