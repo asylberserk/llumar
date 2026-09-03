@@ -7,12 +7,13 @@ export const site = {
   phone: "+996 (555) 00-00-00",
   phoneHref: "tel:+99655500000",
   email: "info@luxfil.kg",
-  address: "г. Бишкек, Кыргызская Республика",
+  address: "г. Бишкек, ул. Максима Горького, 150",
   hours: "Пн — Сб, 09:00 — 19:00",
   whatsapp: "https://wa.me/99655500000",
   telegram: "https://t.me/luxfil",
   instagram: "https://instagram.com/luxfil",
-  map: "https://www.openstreetmap.org/export/embed.html?bbox=74.55%2C42.83%2C74.65%2C42.90&layer=mapnik",
+  map: "https://www.openstreetmap.org/export/embed.html?bbox=74.565%2C42.863%2C74.585%2C42.873&layer=mapnik&marker=42.868%2C74.575",
+  map2gis: "https://2gis.kg/bishkek/geo/15763234351027757",
 };
 
 export const nav = [

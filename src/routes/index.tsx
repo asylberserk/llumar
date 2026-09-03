@@ -1,13 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowDown } from "lucide-react";
+import { ArrowDown, ExternalLink, MapPin } from "lucide-react";
 import logo from "@/assets/luxfil-logo.png.asset.json";
 import rolls from "@/assets/film-rolls.jpg";
 import studio from "@/assets/studio.jpg";
-import tools from "@/assets/tools.jpg";
 import { services } from "@/data/services";
 import { films } from "@/data/films";
 import { products } from "@/data/products";
 import { projects } from "@/data/projects";
+import { site } from "@/lib/site";
 import { FilmCard, ProductCard, ProjectCard, ServiceCard } from "@/components/site/Cards";
 import { SectionHeader } from "@/components/site/SectionHeader";
 import { Reveal } from "@/components/site/Reveal";
@@ -250,29 +250,50 @@ function Index() {
         </div>
       </section>
 
-      <section className="relative overflow-hidden">
-        <img
-          src={tools}
-          alt="Профессиональный инструмент для монтажа пленки"
-          loading="lazy"
-          width={1600}
-          height={1000}
-          className="absolute inset-0 size-full object-cover"
-        />
-        <div className="hero-veil absolute inset-0" />
-        <div className="shell relative py-24 text-center md:py-32">
-          <Reveal>
-            <p className="eyebrow mb-5">Мастерам и студиям</p>
-            <h2 className="mx-auto max-w-3xl text-3xl leading-tight font-medium sm:text-5xl">
-              Подберем материалы и оборудование под вашу студию
-            </h2>
-            <div className="mt-10 flex flex-wrap justify-center gap-4">
-              <LuxButton onClick={() => consult.open()}>Запросить условия</LuxButton>
+      <section className="py-20 md:py-28">
+        <div className="shell">
+          <SectionHeader
+            eyebrow="Адрес"
+            title="Как нас найти"
+            description={site.address}
+            action={
               <LuxLink to="/contacts" variant="outline">
                 Контакты
               </LuxLink>
-            </div>
-          </Reveal>
+            }
+          />
+          <div className="mt-14 grid gap-8 md:grid-cols-2 md:items-center">
+            <Reveal>
+              <div className="group relative mx-auto aspect-square w-full max-w-lg overflow-hidden rounded-full border border-border bg-surface shadow-2xl">
+                <iframe
+                  title="Карта — LUXFIL"
+                  src={site.map}
+                  className="absolute inset-0 size-full border-0 grayscale contrast-125 transition-[filter] duration-500 group-hover:grayscale-0"
+                />
+                <a
+                  href={site.map2gis}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="glass-btn glass-btn-quiet absolute bottom-6 left-1/2 -translate-x-1/2 inline-flex items-center gap-2"
+                >
+                  <MapPin className="size-4" />
+                  Открыть в 2GIS
+                  <ExternalLink className="size-3.5" />
+                </a>
+              </div>
+            </Reveal>
+            <Reveal delay={100}>
+              <div className="mx-auto flex aspect-square w-full max-w-lg items-center justify-center rounded-full border border-dashed border-border bg-surface/50 p-8 text-center">
+                <div>
+                  <span className="eyebrow">Скоро</span>
+                  <h3 className="mt-3 font-display text-xl font-medium">Сертификат дистрибьютора</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    Здесь будет размещён официальный сертификат и галерея документов.
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+          </div>
         </div>
       </section>
     </>

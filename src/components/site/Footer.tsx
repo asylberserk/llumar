@@ -64,7 +64,7 @@ export function Footer() {
           <span>
             © {new Date().getFullYear()} {site.name}. Все права защищены.
           </span>
-          <span>Бишкек, Кыргызская Республика</span>
+          <span>{site.address}</span>
         </div>
       </div>
     </footer>
