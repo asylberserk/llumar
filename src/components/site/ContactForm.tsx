@@ -34,7 +34,7 @@ export function ContactForm({ compact = false }: { compact?: boolean }) {
             setSent(false);
             setValues({ name: "", phone: "", interest: interests[0], comment: "" });
           }}
-          className="mt-6 text-xs tracking-[0.16em] text-muted-foreground uppercase transition-colors hover:text-primary"
+          className="glass-btn glass-btn-quiet mt-6 px-5 py-2.5 text-xs tracking-[0.16em] uppercase"
         >
           Отправить ещё одну
         </button>
