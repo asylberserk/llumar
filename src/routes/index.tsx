@@ -274,7 +274,7 @@ function Index() {
                   href={site.map2gis}
                   target="_blank"
                   rel="noreferrer"
-                  className="glass-btn glass-btn-quiet absolute bottom-6 left-1/2 -translate-x-1/2 inline-flex items-center gap-2"
+                  className="glass-btn glass-btn-quiet glass-btn-2gis absolute bottom-6 left-1/2 -translate-x-1/2 inline-flex items-center gap-2"
                 >
                   <MapPin className="size-4" />
                   Открыть в 2GIS
