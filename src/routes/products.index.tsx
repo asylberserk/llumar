@@ -32,9 +32,19 @@ function ProductsIndex() {
   const [category, setCategory] = useState("Все");
   const [query, setQuery] = useState("");
 
+  const { data: dbRows = [] } = useQuery({
+    queryKey: ["catalog-products"],
+    queryFn: fetchPublishedProducts,
+  });
+
+  const allProducts = useMemo(() => {
+    const fallback = products[0]?.image ?? "";
+    return [...dbRows.map((row) => rowToProduct(row, fallback)), ...products];
+  }, [dbRows]);
+
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return products.filter((p) => {
+    return allProducts.filter((p) => {
       const byCategory = category === "Все" || p.category === category;
       const byQuery =
         q.length === 0 ||
