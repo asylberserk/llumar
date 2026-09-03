@@ -13,6 +13,7 @@ import { SectionHeader } from "@/components/site/SectionHeader";
 import { Reveal } from "@/components/site/Reveal";
 import { LuxButton, LuxLink } from "@/components/site/LuxButton";
 import { useConsult } from "@/components/site/ConsultModal";
+import { Map2GIS } from "@/components/site/Map2GIS";
 
 export const Route = createFileRoute("/")({
   head: () => ({
