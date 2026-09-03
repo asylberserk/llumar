@@ -14,6 +14,19 @@ const variants: Record<Variant, string> = {
 };
 
 
+function Content({ variant, children }: { variant: Variant; children: ReactNode }) {
+  return (
+    <>
+      {children}
+      {variant === "solid" ? (
+        <span aria-hidden className="translate-y-[0.5px] text-[0.95em]">
+          →
+        </span>
+      ) : null}
+    </>
+  );
+}
+
 export function LuxButton({
   variant = "solid",
   className,
@@ -22,7 +35,7 @@ export function LuxButton({
 }: { variant?: Variant; children: ReactNode } & ComponentProps<"button">) {
   return (
     <button className={cn(base, variants[variant], className)} {...props}>
-      {children}
+      <Content variant={variant}>{children}</Content>
     </button>
   );
 }
@@ -35,7 +48,7 @@ export function LuxLink({
 }: { variant?: Variant; children: ReactNode } & ComponentProps<typeof Link>) {
   return (
     <Link className={cn(base, variants[variant], className)} {...props}>
-      {children}
+      <Content variant={variant}>{children}</Content>
     </Link>
   );
 }
@@ -48,7 +61,8 @@ export function LuxAnchor({
 }: { variant?: Variant; children: ReactNode } & ComponentProps<"a">) {
   return (
     <a className={cn(base, variants[variant], className)} {...props}>
-      {children}
+      <Content variant={variant}>{children}</Content>
     </a>
   );
+
 }
