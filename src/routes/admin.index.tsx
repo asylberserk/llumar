@@ -114,6 +114,31 @@ function AdminPanel() {
     enabled: isAdmin,
   });
 
+  const stats = useMemo(() => {
+    const published = rows.filter((r) => r.published).length;
+    const priced = rows.filter((r) => r.price !== null);
+    const avg = priced.length
+      ? Math.round(priced.reduce((s, r) => s + (r.price ?? 0), 0) / priced.length)
+      : 0;
+    return {
+      total: rows.length,
+      published,
+      hidden: rows.length - published,
+      avg,
+      catalogTotal: rows.filter((r) => r.published).length + staticProducts.length,
+    };
+  }, [rows]);
+
+  async function changePassword(e: React.FormEvent) {
+    e.preventDefault();
+    setAccountMsg(null);
+    const { error: err } = await supabase.auth.updateUser({ password: newPassword });
+    setAccountMsg(err ? err.message : "Пароль обновлён");
+    if (!err) setNewPassword("");
+  }
+
+
+
   const [uploading, setUploading] = useState(false);
   const [preview, setPreview] = useState("");
 
