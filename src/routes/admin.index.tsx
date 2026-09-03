@@ -591,7 +591,7 @@ function AdminPanel() {
               Так товар будет выглядеть в каталоге сайта.
             </p>
             <div className="admin-dark-preview mt-5 rounded-lg p-6">
-              <div className="mx-auto max-w-[320px]">
+              <div className="mx-auto max-w-[320px]" onClickCapture={(e) => e.preventDefault()}>
                 <ProductCard product={previewProduct} />
               </div>
             </div>
@@ -667,6 +667,24 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
         {label}
       </span>
       {children}
+    </div>
+  );
+}
+
+function StatCard({
+  icon: Icon,
+  label,
+  value,
+}: {
+  icon: typeof Package;
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="rounded-lg border border-border bg-card p-5 shadow-sm">
+      <Icon className="size-5 text-primary" />
+      <p className="mt-4 font-display text-2xl text-foreground">{value}</p>
+      <p className="mt-1 text-xs tracking-[0.12em] text-muted-foreground uppercase">{label}</p>
     </div>
   );
 }
