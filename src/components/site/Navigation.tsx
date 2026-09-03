@@ -58,13 +58,13 @@ export function Navigation() {
           <button
             type="button"
             onClick={() => consult.open()}
-            className="hidden rounded-sm border border-primary px-5 py-2.5 text-[0.7rem] tracking-[0.16em] text-primary uppercase transition-colors hover:bg-primary hover:text-primary-foreground lg:block"
+            className="glass-btn glass-btn-primary hidden px-5 py-2.5 text-[0.7rem] tracking-[0.16em] uppercase lg:inline-flex"
           >
             Консультация
           </button>
           <Link
             to="/admin/login"
-            className="flex items-center justify-center rounded-sm border border-border p-2.5 text-foreground transition-colors hover:border-primary hover:text-primary"
+            className="glass-btn size-11 p-0 text-foreground"
             aria-label="Вход для администратора"
           >
             <Lock className="size-4" />
@@ -73,7 +73,7 @@ export function Navigation() {
             type="button"
             aria-label={open ? "Закрыть меню" : "Открыть меню"}
             onClick={() => setOpen((v) => !v)}
-            className="text-foreground lg:hidden"
+            className="glass-btn size-11 p-0 text-foreground lg:hidden"
           >
             {open ? <X className="size-6" /> : <Menu className="size-6" />}
           </button>
@@ -100,7 +100,7 @@ export function Navigation() {
                 setOpen(false);
                 consult.open();
               }}
-              className="mt-8 rounded-sm bg-primary px-6 py-4 text-xs tracking-[0.16em] text-primary-foreground uppercase"
+              className="glass-btn glass-btn-primary mt-8 w-full px-6 py-4 text-xs tracking-[0.16em] uppercase"
             >
               Оставить заявку
             </button>

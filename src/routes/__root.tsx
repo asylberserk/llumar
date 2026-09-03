@@ -30,7 +30,7 @@ function NotFoundComponent() {
         <div className="mt-8">
           <Link
             to="/"
-            className="inline-flex items-center justify-center rounded-sm bg-primary px-6 py-3 text-xs tracking-[0.16em] text-primary-foreground uppercase"
+            className="glass-btn glass-btn-primary px-6 py-3 text-xs tracking-[0.16em] uppercase"
           >
             На главную
           </Link>
@@ -60,13 +60,13 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
               router.invalidate();
               reset();
             }}
-            className="inline-flex items-center justify-center rounded-sm bg-primary px-6 py-3 text-xs tracking-[0.16em] text-primary-foreground uppercase"
+            className="glass-btn glass-btn-primary px-6 py-3 text-xs tracking-[0.16em] uppercase"
           >
             Обновить
           </button>
           <a
             href="/"
-            className="inline-flex items-center justify-center rounded-sm border border-border px-6 py-3 text-xs tracking-[0.16em] text-foreground uppercase"
+            className="glass-btn px-6 py-3 text-xs tracking-[0.16em] text-foreground uppercase"
           >
             На главную
           </a>

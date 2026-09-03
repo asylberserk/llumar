@@ -76,10 +76,8 @@ function ProductsIndex() {
                   type="button"
                   onClick={() => setCategory(item)}
                   className={cn(
-                    "rounded-sm border px-5 py-2.5 text-xs tracking-[0.14em] uppercase transition-colors",
-                    category === item
-                      ? "border-primary text-primary"
-                      : "border-border text-muted-foreground hover:text-foreground",
+                    "glass-btn px-5 py-2.5 text-xs tracking-[0.14em] uppercase",
+                    category === item ? "glass-btn-active" : "glass-btn-quiet",
                   )}
                 >
                   {item}
