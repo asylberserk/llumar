@@ -1,3 +1,4 @@
+import { currencyOptions, formatPrice } from "@/lib/price";
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
@@ -59,6 +60,7 @@ const emptyForm = {
   category: categories[0] ?? "Инструмент",
   description: "",
   price: "",
+  currency: "KGS",
   availability: "in-stock",
   image_url: "",
   application: "",
@@ -153,7 +155,7 @@ function AdminPanel() {
           category: form.category,
           description: form.description.trim() || "Краткое описание товара появится здесь.",
           price: form.price.trim() === "" ? null : Number(form.price),
-          currency: "KGS",
+          currency: form.currency,
           availability: form.availability,
           image_url: preview || null,
           application: form.application.trim() || null,
@@ -201,6 +203,7 @@ function AdminPanel() {
       category: row.category,
       description: row.description,
       price: row.price === null ? "" : String(row.price),
+      currency: row.currency === "USD" ? "USD" : "KGS",
       availability: row.availability,
       image_url: row.image_path ?? row.image_url ?? "",
       application: row.application ?? "",
@@ -221,6 +224,7 @@ function AdminPanel() {
       category: form.category,
       description: form.description.trim(),
       price: form.price.trim() === "" ? null : Number(form.price),
+      currency: form.currency,
       availability: form.availability,
       image_url: form.image_url.trim() || null,
       application: form.application.trim() || null,
@@ -347,7 +351,7 @@ function AdminPanel() {
             <StatCard
               icon={Tag}
               label="Средняя цена"
-              value={stats.avg ? `${stats.avg} KGS` : "—"}
+              value={stats.avg ? `${stats.avg} сом` : "—"}
             />
           </div>
 
@@ -449,16 +453,31 @@ function AdminPanel() {
                 className={inputClass}
               />
             </Field>
-            <Field label="Цена, KGS (пусто = по запросу)">
-              <input
-                type="number"
-                min="0"
-                step="1"
-                value={form.price}
-                onChange={(e) => setForm({ ...form, price: e.target.value })}
-                className={inputClass}
-              />
-            </Field>
+            <div className="grid grid-cols-2 gap-3">
+              <Field label="Цена (пусто = по запросу)">
+                <input
+                  type="number"
+                  min="0"
+                  step="1"
+                  value={form.price}
+                  onChange={(e) => setForm({ ...form, price: e.target.value })}
+                  className={inputClass}
+                />
+              </Field>
+              <Field label="Валюта">
+                <select
+                  value={form.currency}
+                  onChange={(e) => setForm({ ...form, currency: e.target.value })}
+                  className={inputClass}
+                >
+                  {currencyOptions.map((c) => (
+                    <option key={c.value} value={c.value}>
+                      {c.label}
+                    </option>
+                  ))}
+                </select>
+              </Field>
+            </div>
             <Field label="Категория">
               <select
                 value={form.category}
@@ -627,7 +646,8 @@ function AdminPanel() {
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-medium text-foreground">{row.name}</p>
                     <p className="truncate text-xs text-muted-foreground">
-                      {row.category} · {row.price === null ? "цена по запросу" : `${row.price} KGS`}
+                      {row.category} ·{" "}
+                      {formatPrice(row.price, row.currency === "USD" ? "USD" : "KGS")}
                       {row.published ? "" : " · скрыт"}
                     </p>
                   </div>
