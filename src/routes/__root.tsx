@@ -140,11 +140,13 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <ConsultProvider>
         <Navigation />
-        <main className="min-h-screen pb-14 sm:pb-0">
+        <main className="min-h-screen">
           {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
           <Outlet />
         </main>
-        <Footer />
+        <div className="pb-[calc(3.5rem+env(safe-area-inset-bottom))] sm:pb-0">
+          <Footer />
+        </div>
         <MobileCta />
       </ConsultProvider>
     </QueryClientProvider>
