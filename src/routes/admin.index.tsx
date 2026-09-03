@@ -142,6 +142,30 @@ function AdminPanel() {
   const [uploading, setUploading] = useState(false);
   const [preview, setPreview] = useState("");
 
+  const previewProduct = useMemo(
+    () =>
+      rowToProduct(
+        {
+          id: editingId ?? "preview",
+          slug: form.slug || slugify(form.name) || "preview",
+          name: form.name.trim() || "Название товара",
+          brand: form.brand.trim() || "LUXFIL Supply",
+          category: form.category,
+          description: form.description.trim() || "Краткое описание товара появится здесь.",
+          price: form.price.trim() === "" ? null : Number(form.price),
+          currency: "KGS",
+          availability: form.availability,
+          image_url: preview || null,
+          application: form.application.trim() || null,
+          tags: form.tags.split(",").map((t) => t.trim()).filter(Boolean),
+          published: form.published,
+        },
+        fallbackImage,
+      ),
+    [form, preview, editingId],
+  );
+
+
   async function handleImageFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
