@@ -1,13 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowDown } from "lucide-react";
+import { ArrowDown, ExternalLink, MapPin } from "lucide-react";
 import logo from "@/assets/luxfil-logo.png.asset.json";
 import rolls from "@/assets/film-rolls.jpg";
 import studio from "@/assets/studio.jpg";
-import tools from "@/assets/tools.jpg";
 import { services } from "@/data/services";
 import { films } from "@/data/films";
 import { products } from "@/data/products";
 import { projects } from "@/data/projects";
+import { site } from "@/lib/site";
 import { FilmCard, ProductCard, ProjectCard, ServiceCard } from "@/components/site/Cards";
 import { SectionHeader } from "@/components/site/SectionHeader";
 import { Reveal } from "@/components/site/Reveal";
