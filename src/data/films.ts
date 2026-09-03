@@ -1,72 +1,62 @@
-import ppf from "@/assets/ppf-install.jpg";
-import tint from "@/assets/tint.jpg";
-import rolls from "@/assets/film-rolls.jpg";
-import detailing from "@/assets/detailing.jpg";
-import interior from "@/assets/interior.jpg";
-import studio from "@/assets/studio.jpg";
+import llumar from "@/assets/film-llumar.jpg.asset.json";
+import hexis from "@/assets/film-hexis.jpg.asset.json";
+import membrane from "@/assets/film-membrane.jpg.asset.json";
+import versa from "@/assets/film-versa.jpg.asset.json";
+import monoppf from "@/assets/film-monoppf.jpg.asset.json";
 import type { FilmCategory } from "./types";
 
 export const films: FilmCategory[] = [
   {
     id: "f1",
-    slug: "ppf-clear",
-    title: "Прозрачная защитная пленка",
+    slug: "llumar",
+    title: "LLumar",
     brand: "LLumar",
-    application: "Кузов",
-    technology: "Полиуретан",
+    application: "Кузов / Стекла / Здания",
+    technology: "Полиуретан, многослойные пленки",
     description:
-      "Прозрачный полиуретан для защиты лакокрасочного покрытия от сколов и абразивного износа.",
-    image: ppf,
+      "Защитные, тонировочные и архитектурные пленки. LUXFIL — официальный дистрибьютор в Кыргызстане.",
+    image: llumar.url,
   },
   {
     id: "f2",
-    slug: "ppf-matte",
-    title: "Матовая защитная пленка",
-    brand: "LLumar",
+    slug: "hexis-bodyfence",
+    title: "HEXIS Bodyfence",
+    brand: "HEXIS",
     application: "Кузов",
-    technology: "Полиуретан",
-    description: "Защита кузова с изменением фактуры покрытия на матовую без перекраса.",
-    image: detailing,
+    technology: "Paint Protection Film",
+    description:
+      "Полиуретановая защитная пленка с самовосстанавливающимся слоем и высокой прозрачностью.",
+    image: hexis.url,
   },
   {
     id: "f3",
-    slug: "auto-tint",
-    title: "Автомобильная тонировка",
-    brand: "LLumar",
-    application: "Стекла",
-    technology: "Металлизированная / окрашенная",
-    description: "Пленки для стекол автомобиля с разным уровнем светопропускания.",
-    image: tint,
+    slug: "membrane",
+    title: "Membrane",
+    brand: "Membrane",
+    application: "Кузов",
+    technology: "PPF",
+    description: "Защита лакокрасочного покрытия от сколов, песка и абразивного износа.",
+    image: membrane.url,
   },
   {
     id: "f4",
-    slug: "atr",
-    title: "Атермальные пленки",
-    brand: "LLumar",
+    slug: "versa",
+    title: "Versa",
+    brand: "Versa",
     application: "Стекла",
-    technology: "Многослойная",
-    description: "Снижение теплового потока в салон при сохранении обзорности.",
-    image: interior,
+    technology: "Тонировочные пленки",
+    description: "Пленки для стекол с разным уровнем светопропускания и теплозащиты.",
+    image: versa.url,
   },
   {
     id: "f5",
-    slug: "architectural",
-    title: "Архитектурные пленки",
-    brand: "LLumar",
-    application: "Здания",
-    technology: "Солнцезащитная",
-    description: "Пленки для остекления офисов и жилых помещений.",
-    image: studio,
-  },
-  {
-    id: "f6",
-    slug: "safety",
-    title: "Защитные пленки для стекла",
-    brand: "LLumar",
-    application: "Здания",
-    technology: "Ударопрочная",
-    description: "Многослойные пленки, удерживающие осколки при разрушении стекла.",
-    image: rolls,
+    slug: "monoppf",
+    title: "MONOPPF",
+    brand: "MONOPPF",
+    application: "Кузов",
+    technology: "PPF / оклейка",
+    description: "Материалы для оклейки и защиты кузова — перезагрузка мира оклейки.",
+    image: monoppf.url,
   },
 ];
 
