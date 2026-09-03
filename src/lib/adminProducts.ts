@@ -1,5 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
-import type { Product } from "@/data/types";
+import type { Currency, Product } from "@/data/types";
 
 export interface AdminProductRow {
   id: string;
@@ -26,6 +26,7 @@ export interface AdminProductInput {
   category: string;
   description: string;
   price: number | null;
+  currency: string;
   availability: string;
   image_url: string | null;
   application: string | null;
@@ -42,7 +43,7 @@ export function rowToProduct(row: AdminProductRow, fallbackImage: string): Produ
     category: row.category,
     description: row.description,
     price: row.price,
-    currency: "KGS",
+    currency: (row.currency === "USD" ? "USD" : "KGS") as Currency,
     availability: (row.availability as Product["availability"]) ?? "ask",
     image: row.image_url || fallbackImage,
     specifications: [],

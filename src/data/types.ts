@@ -1,5 +1,7 @@
 export type Availability = "in-stock" | "on-order" | "ask";
 
+export type Currency = "KGS" | "USD";
+
 export interface Spec {
   label: string;
   value: string;
@@ -13,7 +15,7 @@ export interface Product {
   category: string;
   description: string;
   price: number | null;
-  currency: "KGS";
+  currency: Currency;
   availability: Availability;
   image: string;
   specifications: Spec[];
