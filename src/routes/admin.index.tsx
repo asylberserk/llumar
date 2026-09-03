@@ -1,7 +1,19 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
-import { Loader2, Pencil, Plus, Trash2 } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import {
+  ArrowUpRight,
+  Boxes,
+  EyeOff,
+  LayoutDashboard,
+  Loader2,
+  Package,
+  Pencil,
+  Plus,
+  ShieldCheck,
+  Tag,
+  Trash2,
+} from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import {
   createProduct,
@@ -11,9 +23,13 @@ import {
   uploadProductImage,
   getImagePreviewUrl,
   updateProduct,
+  rowToProduct,
   type AdminProductRow,
 } from "@/lib/adminProducts";
-import { productCategories } from "@/data/products";
+import { productCategories, products as staticProducts } from "@/data/products";
+import { ProductCard } from "@/components/site/Cards";
+import fallbackImage from "@/assets/tools.jpg";
+
 
 export const Route = createFileRoute("/admin/")({
   ssr: false,
@@ -62,6 +78,11 @@ function AdminPanel() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [tab, setTab] = useState<"overview" | "catalog" | "account">("overview");
+  const [email, setEmail] = useState<string>("");
+  const [newPassword, setNewPassword] = useState("");
+  const [accountMsg, setAccountMsg] = useState<string | null>(null);
+
 
   useEffect(() => {
     let active = true;
@@ -77,6 +98,8 @@ function AdminPanel() {
         .eq("user_id", session.user.id);
       if (!active) return;
       setUserId(session.user.id);
+      setEmail(session.user.email ?? "");
+
       setIsAdmin((roles ?? []).some((r) => r.role === "admin"));
       setChecking(false);
     });
@@ -91,8 +114,57 @@ function AdminPanel() {
     enabled: isAdmin,
   });
 
+  const stats = useMemo(() => {
+    const published = rows.filter((r) => r.published).length;
+    const priced = rows.filter((r) => r.price !== null);
+    const avg = priced.length
+      ? Math.round(priced.reduce((s, r) => s + (r.price ?? 0), 0) / priced.length)
+      : 0;
+    return {
+      total: rows.length,
+      published,
+      hidden: rows.length - published,
+      avg,
+      catalogTotal: rows.filter((r) => r.published).length + staticProducts.length,
+    };
+  }, [rows]);
+
+  async function changePassword(e: React.FormEvent) {
+    e.preventDefault();
+    setAccountMsg(null);
+    const { error: err } = await supabase.auth.updateUser({ password: newPassword });
+    setAccountMsg(err ? err.message : "Пароль обновлён");
+    if (!err) setNewPassword("");
+  }
+
+
+
   const [uploading, setUploading] = useState(false);
   const [preview, setPreview] = useState("");
+
+  const previewProduct = useMemo(
+    () =>
+      rowToProduct(
+        {
+          id: editingId ?? "preview",
+          slug: form.slug || slugify(form.name) || "preview",
+          name: form.name.trim() || "Название товара",
+          brand: form.brand.trim() || "LUXFIL Supply",
+          category: form.category,
+          description: form.description.trim() || "Краткое описание товара появится здесь.",
+          price: form.price.trim() === "" ? null : Number(form.price),
+          currency: "KGS",
+          availability: form.availability,
+          image_url: preview || null,
+          application: form.application.trim() || null,
+          tags: form.tags.split(",").map((t) => t.trim()).filter(Boolean),
+          published: form.published,
+        },
+        fallbackImage,
+      ),
+    [form, preview, editingId],
+  );
+
 
   async function handleImageFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -225,21 +297,141 @@ function AdminPanel() {
       <header className="flex flex-wrap items-end justify-between gap-4 border-b border-border pb-6">
         <div>
           <p className="text-xs tracking-[0.18em] text-muted-foreground uppercase">LUXFIL</p>
-          <h1 className="mt-2 font-display text-3xl text-foreground">Каталог товаров</h1>
+          <h1 className="mt-2 font-display text-3xl text-foreground">Панель управления</h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            Добавляйте карточки товаров, назначайте цены и управляйте наличием.
+            Каталог, содержимое сайта и настройки аккаунта администратора.
           </p>
         </div>
-        <button
-          type="button"
-          onClick={signOut}
-          className="rounded-md border border-border px-4 py-2 text-sm text-muted-foreground hover:text-foreground"
-        >
-          Выйти
-        </button>
+        <div className="flex items-center gap-3">
+          <span className="hidden text-sm text-muted-foreground sm:inline">{email}</span>
+          <button
+            type="button"
+            onClick={signOut}
+            className="rounded-md border border-border px-4 py-2 text-sm text-muted-foreground hover:text-foreground"
+          >
+            Выйти
+          </button>
+        </div>
       </header>
 
-      <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,380px)_minmax(0,1fr)]">
+      <nav className="mt-6 flex flex-wrap gap-2">
+        {(
+          [
+            { id: "overview", label: "Обзор", icon: LayoutDashboard },
+            { id: "catalog", label: "Товары", icon: Package },
+            { id: "account", label: "Аккаунт", icon: ShieldCheck },
+          ] as const
+        ).map(({ id, label, icon: Icon }) => (
+          <button
+            key={id}
+            type="button"
+            onClick={() => setTab(id)}
+            className={`inline-flex items-center gap-2 rounded-md border px-4 py-2 text-sm transition-colors ${
+              tab === id
+                ? "border-primary bg-primary text-primary-foreground"
+                : "border-border text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            <Icon className="size-4" />
+            {label}
+          </button>
+        ))}
+      </nav>
+
+      {tab === "overview" ? (
+        <section className="mt-8 space-y-8">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <StatCard icon={Package} label="Товаров в базе" value={String(stats.total)} />
+            <StatCard icon={Boxes} label="Опубликовано" value={String(stats.published)} />
+            <StatCard icon={EyeOff} label="Скрыто" value={String(stats.hidden)} />
+            <StatCard
+              icon={Tag}
+              label="Средняя цена"
+              value={stats.avg ? `${stats.avg} KGS` : "—"}
+            />
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="rounded-lg border border-border bg-card p-6 shadow-sm">
+              <h2 className="font-display text-lg text-foreground">Быстрые действия</h2>
+              <div className="mt-4 flex flex-col gap-2 text-sm">
+                <button
+                  type="button"
+                  onClick={() => {
+                    resetForm();
+                    setTab("catalog");
+                  }}
+                  className="inline-flex items-center gap-2 text-primary hover:underline"
+                >
+                  <Plus className="size-4" /> Добавить новый товар
+                </button>
+                <Link
+                  to="/products"
+                  className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground"
+                >
+                  <ArrowUpRight className="size-4" /> Открыть каталог на сайте
+                </Link>
+                <Link
+                  to="/contacts"
+                  className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground"
+                >
+                  <ArrowUpRight className="size-4" /> Страница контактов
+                </Link>
+              </div>
+            </div>
+
+            <div className="rounded-lg border border-border bg-card p-6 shadow-sm">
+              <h2 className="font-display text-lg text-foreground">Каталог сайта</h2>
+              <p className="mt-3 text-sm text-muted-foreground">
+                В публичном каталоге сейчас {stats.catalogTotal} позиций: {staticProducts.length}{" "}
+                базовых и {stats.published} добавленных вручную.
+              </p>
+              <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+                {rows.slice(0, 3).map((r) => (
+                  <li key={r.id} className="truncate">
+                    · {r.name}
+                  </li>
+                ))}
+                {rows.length === 0 ? <li>Пока нет собственных товаров.</li> : null}
+              </ul>
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {tab === "account" ? (
+        <section className="mt-8 max-w-md rounded-lg border border-border bg-card p-6 shadow-sm">
+          <h2 className="font-display text-lg text-foreground">Аккаунт администратора</h2>
+          <p className="mt-2 text-sm text-muted-foreground">{email}</p>
+          <form onSubmit={changePassword} className="mt-6 space-y-4">
+            <Field label="Новый пароль">
+              <input
+                type="password"
+                required
+                minLength={6}
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                className={inputClass}
+              />
+            </Field>
+            {accountMsg ? <p className="text-sm text-muted-foreground">{accountMsg}</p> : null}
+            <button
+              type="submit"
+              className="rounded-md bg-primary px-5 py-3 text-sm font-medium text-primary-foreground hover:opacity-90"
+            >
+              Сменить пароль
+            </button>
+          </form>
+          <p className="mt-6 text-xs break-all text-muted-foreground">ID: {userId}</p>
+        </section>
+      ) : null}
+
+      <div
+        className={`mt-10 gap-10 lg:grid-cols-[minmax(0,380px)_minmax(0,1fr)] ${
+          tab === "catalog" ? "grid" : "hidden"
+        }`}
+      >
+
         <form
           onSubmit={submit}
           className="h-fit rounded-lg border border-border bg-card p-6 shadow-sm"
@@ -393,9 +585,22 @@ function AdminPanel() {
         </form>
 
         <section>
-          <h2 className="font-display text-lg text-foreground">
+          <div className="rounded-lg border border-border bg-card p-6 shadow-sm">
+            <h2 className="font-display text-lg text-foreground">Предпросмотр карточки</h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Так товар будет выглядеть в каталоге сайта.
+            </p>
+            <div className="admin-dark-preview mt-5 rounded-lg p-6">
+              <div className="mx-auto max-w-[320px]" onClickCapture={(e) => e.preventDefault()}>
+                <ProductCard product={previewProduct} />
+              </div>
+            </div>
+          </div>
+
+          <h2 className="mt-10 font-display text-lg text-foreground">
             Товары ({rows.length})
           </h2>
+
           {isLoading ? (
             <p className="mt-6 text-sm text-muted-foreground">Загрузка…</p>
           ) : rows.length === 0 ? (
@@ -462,6 +667,24 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
         {label}
       </span>
       {children}
+    </div>
+  );
+}
+
+function StatCard({
+  icon: Icon,
+  label,
+  value,
+}: {
+  icon: typeof Package;
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="rounded-lg border border-border bg-card p-5 shadow-sm">
+      <Icon className="size-5 text-primary" />
+      <p className="mt-4 font-display text-2xl text-foreground">{value}</p>
+      <p className="mt-1 text-xs tracking-[0.12em] text-muted-foreground uppercase">{label}</p>
     </div>
   );
 }
