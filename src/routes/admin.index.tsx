@@ -78,6 +78,11 @@ function AdminPanel() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [tab, setTab] = useState<"overview" | "catalog" | "account">("overview");
+  const [email, setEmail] = useState<string>("");
+  const [newPassword, setNewPassword] = useState("");
+  const [accountMsg, setAccountMsg] = useState<string | null>(null);
+
 
   useEffect(() => {
     let active = true;
