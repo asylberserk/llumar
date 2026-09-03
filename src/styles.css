@@ -519,7 +519,7 @@
 
 .site-bg-image {
   position: absolute;
-  inset: -20% 0 -40% 0;
+  inset: -40% 0 -20% 0;
   background-position: center top;
   background-size: cover;
   background-repeat: no-repeat;
