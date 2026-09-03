@@ -16,6 +16,7 @@ import { Navigation } from "@/components/site/Navigation";
 import { Footer } from "@/components/site/Footer";
 import { MobileCta } from "@/components/site/MobileCta";
 import { ConsultProvider } from "@/components/site/ConsultModal";
+import { SiteBackground } from "@/components/site/SiteBackground";
 import { site } from "@/lib/site";
 
 function NotFoundComponent() {
@@ -142,6 +143,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <ConsultProvider>
+        {isAdmin ? null : <SiteBackground />}
         {isAdmin ? null : <Navigation />}
         <main className="min-h-screen">
           {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
