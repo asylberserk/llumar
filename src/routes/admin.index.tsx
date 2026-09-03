@@ -98,6 +98,8 @@ function AdminPanel() {
         .eq("user_id", session.user.id);
       if (!active) return;
       setUserId(session.user.id);
+      setEmail(session.user.email ?? "");
+
       setIsAdmin((roles ?? []).some((r) => r.role === "admin"));
       setChecking(false);
     });
