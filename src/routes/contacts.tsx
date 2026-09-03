@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader } from "@/components/site/PageHeader";
 import { Reveal } from "@/components/site/Reveal";
 import { ContactForm } from "@/components/site/ContactForm";
+import { Map2GIS } from "@/components/site/Map2GIS";
 import { site } from "@/lib/site";
 
 export const Route = createFileRoute("/contacts")({
@@ -90,12 +91,9 @@ function ContactsPage() {
       </section>
 
       <section className="border-t border-border">
-        <iframe
-          title="Карта — LUXFIL, Бишкек"
-          src={site.map}
-          loading="lazy"
-          className="h-[420px] w-full border-0 grayscale"
-        />
+        <div className="relative h-[420px] w-full">
+          <Map2GIS />
+        </div>
       </section>
     </>
   );

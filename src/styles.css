@@ -547,3 +547,22 @@
     color-mix(in oklab, var(--background) 22%, transparent) 100%
   );
 }
+
+/* 2GIS map widget */
+.map-2gis-container {
+  background: transparent;
+}
+
+.map-2gis-container .leaflet-container {
+  background: transparent;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+.map-2gis-container .leaflet-control-container {
+  display: none;
+}
+
+.map-pin {
+  background: transparent;
+  border: 0;
+}
