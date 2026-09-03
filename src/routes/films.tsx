@@ -32,7 +32,9 @@ export const Route = createFileRoute("/films")({
 function FilmsPage() {
   const [application, setApplication] = useState("Все");
   const consult = useConsult();
-  const filtered = films.filter((f) => application === "Все" || f.application === application);
+  const filtered = films.filter(
+    (f) => application === "Все" || f.application.includes(application),
+  );
 
   return (
     <>
