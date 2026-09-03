@@ -585,9 +585,22 @@ function AdminPanel() {
         </form>
 
         <section>
-          <h2 className="font-display text-lg text-foreground">
+          <div className="rounded-lg border border-border bg-card p-6 shadow-sm">
+            <h2 className="font-display text-lg text-foreground">Предпросмотр карточки</h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Так товар будет выглядеть в каталоге сайта.
+            </p>
+            <div className="admin-dark-preview mt-5 rounded-lg p-6">
+              <div className="mx-auto max-w-[320px]">
+                <ProductCard product={previewProduct} />
+              </div>
+            </div>
+          </div>
+
+          <h2 className="mt-10 font-display text-lg text-foreground">
             Товары ({rows.length})
           </h2>
+
           {isLoading ? (
             <p className="mt-6 text-sm text-muted-foreground">Загрузка…</p>
           ) : rows.length === 0 ? (
