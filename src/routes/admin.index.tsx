@@ -1,7 +1,19 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
-import { Loader2, Pencil, Plus, Trash2 } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import {
+  ArrowUpRight,
+  Boxes,
+  EyeOff,
+  LayoutDashboard,
+  Loader2,
+  Package,
+  Pencil,
+  Plus,
+  ShieldCheck,
+  Tag,
+  Trash2,
+} from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import {
   createProduct,
@@ -11,9 +23,13 @@ import {
   uploadProductImage,
   getImagePreviewUrl,
   updateProduct,
+  rowToProduct,
   type AdminProductRow,
 } from "@/lib/adminProducts";
-import { productCategories } from "@/data/products";
+import { productCategories, products as staticProducts } from "@/data/products";
+import { ProductCard } from "@/components/site/Cards";
+import fallbackImage from "@/assets/tools.jpg";
+
 
 export const Route = createFileRoute("/admin/")({
   ssr: false,
