@@ -1,3 +1,4 @@
+import { formatPrice } from "@/lib/price";
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -134,9 +135,7 @@ export function ProductCard({ product }: { product: Product }) {
           <p className="mt-2 flex-1 text-sm text-muted-foreground">{product.category}</p>
           <div className="mt-5 flex items-center justify-between text-xs">
             <span className="font-display text-primary">
-              {product.price === null
-                ? "Цена по запросу"
-                : `${product.price.toLocaleString("ru-RU")} сом`}
+              {formatPrice(product.price, product.currency)}
             </span>
             <span className="inline-flex items-center gap-1.5 text-muted-foreground">
               {availabilityLabel[product.availability]}

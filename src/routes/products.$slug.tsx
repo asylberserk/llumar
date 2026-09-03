@@ -1,3 +1,4 @@
+import { formatPrice } from "@/lib/price";
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { availabilityLabel, getProduct, products } from "@/data/products";
 import { ProductCard } from "@/components/site/Cards";
@@ -63,9 +64,7 @@ function ProductDetail() {
 
             <div className="hairline mt-8 flex items-center justify-between pt-6">
               <span className="font-display text-xl text-primary">
-                {product.price === null
-                  ? "Цена по запросу"
-                  : `${product.price.toLocaleString("ru-RU")} сом`}
+                {formatPrice(product.price, product.currency)}
               </span>
               <span className="text-xs tracking-[0.14em] text-muted-foreground uppercase">
                 {availabilityLabel[product.availability]}
