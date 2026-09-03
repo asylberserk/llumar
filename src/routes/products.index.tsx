@@ -6,6 +6,8 @@ import { ProductCard } from "@/components/site/Cards";
 import { PageHeader } from "@/components/site/PageHeader";
 import { Reveal } from "@/components/site/Reveal";
 import { cn } from "@/lib/utils";
+import { useQuery } from "@tanstack/react-query";
+import { fetchPublishedProducts, rowToProduct } from "@/lib/adminProducts";
 
 export const Route = createFileRoute("/products/")({
   head: () => ({
@@ -54,7 +56,7 @@ function ProductsIndex() {
           .includes(q);
       return byCategory && byQuery;
     });
-  }, [category, query]);
+  }, [allProducts, category, query]);
 
   return (
     <>
