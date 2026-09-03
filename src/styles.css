@@ -501,3 +501,41 @@
     transform: none;
   }
 }
+
+/* Full-page parallax background */
+.site-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background-color: var(--background);
+}
+
+.site-bg-image {
+  position: absolute;
+  inset: -20% 0 -40% 0;
+  background-position: center top;
+  background-size: cover;
+  background-repeat: no-repeat;
+  will-change: transform;
+  opacity: 0.55;
+  filter: saturate(0.75) brightness(0.85);
+}
+
+.site-bg-veil {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      120% 80% at 50% 0%,
+      transparent 0%,
+      color-mix(in oklab, var(--background) 55%, transparent) 55%,
+      color-mix(in oklab, var(--background) 88%, transparent) 100%
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--background) 70%, transparent) 0%,
+      color-mix(in oklab, var(--background) 78%, transparent) 100%
+    );
+}
