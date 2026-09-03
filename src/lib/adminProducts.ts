@@ -15,6 +15,8 @@ export interface AdminProductRow {
   application: string | null;
   tags: string[];
   published: boolean;
+  /** Original stored value (storage path) before signed-URL resolution. */
+  image_path?: string | null;
 }
 
 export interface AdminProductInput {
@@ -71,7 +73,9 @@ async function withResolvedImages(rows: AdminProductRow[]): Promise<AdminProduct
     if (item.path && item.signedUrl) map.set(item.path, item.signedUrl);
   }
   return rows.map((row) =>
-    row.image_url && map.has(row.image_url) ? { ...row, image_url: map.get(row.image_url)! } : row,
+    row.image_url && map.has(row.image_url)
+      ? { ...row, image_path: row.image_url, image_url: map.get(row.image_url)! }
+      : row,
   );
 }
 
