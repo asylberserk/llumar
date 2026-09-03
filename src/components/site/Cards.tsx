@@ -8,7 +8,7 @@ export function ServiceCard({ service }: { service: Service }) {
     <Link
       to="/services/$slug"
       params={{ slug: service.slug }}
-      className="group flex flex-col border border-border bg-surface transition-colors hover:border-primary/60"
+      className="card-lift group flex flex-col border border-border bg-surface hover:border-primary/60"
     >
       <div className="media-zoom aspect-[4/3] w-full">
         <img
@@ -32,7 +32,7 @@ export function ServiceCard({ service }: { service: Service }) {
 
 export function FilmCard({ film }: { film: FilmCategory }) {
   return (
-    <article className="flex flex-col border border-border bg-surface">
+    <article className="card-lift flex flex-col border border-border bg-surface hover:border-primary/50">
       <div className="media-zoom aspect-[16/10] w-full">
         <img src={film.image} alt={film.title} loading="lazy" className="size-full object-cover" />
       </div>
@@ -62,7 +62,7 @@ export function ProductCard({ product }: { product: Product }) {
     <Link
       to="/products/$slug"
       params={{ slug: product.slug }}
-      className="group flex flex-col border border-border bg-surface transition-colors hover:border-primary/60"
+      className="card-lift group flex flex-col border border-border bg-surface hover:border-primary/60"
     >
       <div className="media-zoom aspect-square w-full">
         <img
@@ -96,7 +96,7 @@ export function ProjectCard({ project }: { project: Project }) {
     <Link
       to="/projects/$slug"
       params={{ slug: project.slug }}
-      className="group flex flex-col border border-border bg-surface transition-colors hover:border-primary/60"
+      className="card-lift group flex flex-col border border-border bg-surface hover:border-primary/60"
     >
       <div className="media-zoom aspect-[3/2] w-full">
         <img

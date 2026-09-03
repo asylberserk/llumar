@@ -259,7 +259,7 @@ function Index() {
           height={1000}
           className="absolute inset-0 size-full object-cover"
         />
-        <div className="absolute inset-0 bg-background/85" />
+        <div className="hero-veil absolute inset-0" />
         <div className="shell relative py-24 text-center md:py-32">
           <Reveal>
             <p className="eyebrow mb-5">Мастерам и студиям</p>
