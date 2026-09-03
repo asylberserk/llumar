@@ -265,11 +265,7 @@ function Index() {
           <div className="mt-14 grid gap-8 md:grid-cols-2 md:items-center">
             <Reveal>
               <div className="group relative mx-auto aspect-square w-full max-w-lg overflow-hidden rounded-full border border-border bg-surface shadow-2xl">
-                <iframe
-                  title="Карта — LUXFIL"
-                  src={site.map}
-                  className="absolute inset-0 size-full border-0 grayscale contrast-125 transition-[filter] duration-500 group-hover:grayscale-0"
-                />
+                <Map2GIS />
                 <a
                   href={site.map2gis}
                   target="_blank"
@@ -281,6 +277,9 @@ function Index() {
                   <ExternalLink className="size-3.5" />
                 </a>
               </div>
+              <p className="mt-3 text-center text-[10px] uppercase tracking-widest text-muted-foreground/60">
+                Карта © 2GIS
+              </p>
             </Reveal>
             <Reveal delay={100}>
               <div className="mx-auto flex aspect-square w-full max-w-lg items-center justify-center rounded-full border border-dashed border-border bg-surface/50 p-8 text-center">
