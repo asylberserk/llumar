@@ -8,6 +8,17 @@ import type { FilmCategory } from "./types";
 
 export const films: FilmCategory[] = [
   {
+    id: "f0",
+    slug: "luxfil",
+    title: "LUXFIL",
+    brand: "LUXFIL",
+    application: "Кузов / Стекла / Здания",
+    technology: "Премиальные пленки и детейлинг",
+    description:
+      "Официальный дистрибьютор премиальных защитных и тонировочных пленок в Кыргызстане.",
+    image: luxfil.url,
+  },
+  {
     id: "f1",
     slug: "llumar",
     title: "LLumar",
