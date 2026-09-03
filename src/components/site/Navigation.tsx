@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Menu, X } from "lucide-react";
+import { Lock, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { nav, site } from "@/lib/site";
@@ -62,6 +62,13 @@ export function Navigation() {
           >
             Консультация
           </button>
+          <Link
+            to="/admin/login"
+            className="flex items-center justify-center rounded-sm border border-border p-2.5 text-foreground transition-colors hover:border-primary hover:text-primary"
+            aria-label="Вход для администратора"
+          >
+            <Lock className="size-4" />
+          </Link>
           <button
             type="button"
             aria-label={open ? "Закрыть меню" : "Открыть меню"}
