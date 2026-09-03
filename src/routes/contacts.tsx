@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader } from "@/components/site/PageHeader";
 import { Reveal } from "@/components/site/Reveal";
 import { ContactForm } from "@/components/site/ContactForm";
-import { site } from "@/lib/site";
+import { Map2GIS } from "@/components/site/Map2GIS";
 
 export const Route = createFileRoute("/contacts")({
   head: () => ({
