@@ -297,21 +297,141 @@ function AdminPanel() {
       <header className="flex flex-wrap items-end justify-between gap-4 border-b border-border pb-6">
         <div>
           <p className="text-xs tracking-[0.18em] text-muted-foreground uppercase">LUXFIL</p>
-          <h1 className="mt-2 font-display text-3xl text-foreground">Каталог товаров</h1>
+          <h1 className="mt-2 font-display text-3xl text-foreground">Панель управления</h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            Добавляйте карточки товаров, назначайте цены и управляйте наличием.
+            Каталог, содержимое сайта и настройки аккаунта администратора.
           </p>
         </div>
-        <button
-          type="button"
-          onClick={signOut}
-          className="rounded-md border border-border px-4 py-2 text-sm text-muted-foreground hover:text-foreground"
-        >
-          Выйти
-        </button>
+        <div className="flex items-center gap-3">
+          <span className="hidden text-sm text-muted-foreground sm:inline">{email}</span>
+          <button
+            type="button"
+            onClick={signOut}
+            className="rounded-md border border-border px-4 py-2 text-sm text-muted-foreground hover:text-foreground"
+          >
+            Выйти
+          </button>
+        </div>
       </header>
 
-      <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,380px)_minmax(0,1fr)]">
+      <nav className="mt-6 flex flex-wrap gap-2">
+        {(
+          [
+            { id: "overview", label: "Обзор", icon: LayoutDashboard },
+            { id: "catalog", label: "Товары", icon: Package },
+            { id: "account", label: "Аккаунт", icon: ShieldCheck },
+          ] as const
+        ).map(({ id, label, icon: Icon }) => (
+          <button
+            key={id}
+            type="button"
+            onClick={() => setTab(id)}
+            className={`inline-flex items-center gap-2 rounded-md border px-4 py-2 text-sm transition-colors ${
+              tab === id
+                ? "border-primary bg-primary text-primary-foreground"
+                : "border-border text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            <Icon className="size-4" />
+            {label}
+          </button>
+        ))}
+      </nav>
+
+      {tab === "overview" ? (
+        <section className="mt-8 space-y-8">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <StatCard icon={Package} label="Товаров в базе" value={String(stats.total)} />
+            <StatCard icon={Boxes} label="Опубликовано" value={String(stats.published)} />
+            <StatCard icon={EyeOff} label="Скрыто" value={String(stats.hidden)} />
+            <StatCard
+              icon={Tag}
+              label="Средняя цена"
+              value={stats.avg ? `${stats.avg} KGS` : "—"}
+            />
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="rounded-lg border border-border bg-card p-6 shadow-sm">
+              <h2 className="font-display text-lg text-foreground">Быстрые действия</h2>
+              <div className="mt-4 flex flex-col gap-2 text-sm">
+                <button
+                  type="button"
+                  onClick={() => {
+                    resetForm();
+                    setTab("catalog");
+                  }}
+                  className="inline-flex items-center gap-2 text-primary hover:underline"
+                >
+                  <Plus className="size-4" /> Добавить новый товар
+                </button>
+                <Link
+                  to="/products"
+                  className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground"
+                >
+                  <ArrowUpRight className="size-4" /> Открыть каталог на сайте
+                </Link>
+                <Link
+                  to="/contacts"
+                  className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground"
+                >
+                  <ArrowUpRight className="size-4" /> Страница контактов
+                </Link>
+              </div>
+            </div>
+
+            <div className="rounded-lg border border-border bg-card p-6 shadow-sm">
+              <h2 className="font-display text-lg text-foreground">Каталог сайта</h2>
+              <p className="mt-3 text-sm text-muted-foreground">
+                В публичном каталоге сейчас {stats.catalogTotal} позиций: {staticProducts.length}{" "}
+                базовых и {stats.published} добавленных вручную.
+              </p>
+              <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+                {rows.slice(0, 3).map((r) => (
+                  <li key={r.id} className="truncate">
+                    · {r.name}
+                  </li>
+                ))}
+                {rows.length === 0 ? <li>Пока нет собственных товаров.</li> : null}
+              </ul>
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {tab === "account" ? (
+        <section className="mt-8 max-w-md rounded-lg border border-border bg-card p-6 shadow-sm">
+          <h2 className="font-display text-lg text-foreground">Аккаунт администратора</h2>
+          <p className="mt-2 text-sm text-muted-foreground">{email}</p>
+          <form onSubmit={changePassword} className="mt-6 space-y-4">
+            <Field label="Новый пароль">
+              <input
+                type="password"
+                required
+                minLength={6}
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                className={inputClass}
+              />
+            </Field>
+            {accountMsg ? <p className="text-sm text-muted-foreground">{accountMsg}</p> : null}
+            <button
+              type="submit"
+              className="rounded-md bg-primary px-5 py-3 text-sm font-medium text-primary-foreground hover:opacity-90"
+            >
+              Сменить пароль
+            </button>
+          </form>
+          <p className="mt-6 text-xs break-all text-muted-foreground">ID: {userId}</p>
+        </section>
+      ) : null}
+
+      <div
+        className={`mt-10 gap-10 lg:grid-cols-[minmax(0,380px)_minmax(0,1fr)] ${
+          tab === "catalog" ? "grid" : "hidden"
+        }`}
+      >
+
         <form
           onSubmit={submit}
           className="h-fit rounded-lg border border-border bg-card p-6 shadow-sm"
