@@ -261,7 +261,7 @@ function AdminPanel() {
 
   async function signOut() {
     await supabase.auth.signOut();
-    navigate({ to: "/admin/login" });
+    navigate({ to: "/" });
   }
 
   if (checking) {
