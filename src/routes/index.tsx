@@ -47,7 +47,7 @@ function Index() {
   return (
     <>
       <section className="relative flex min-h-[94vh] items-end overflow-hidden">
-        <div className="hero-veil absolute inset-0" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/45 to-transparent" />
         <div className="shell relative w-full pt-40 pb-20 md:pb-28">
           <div className="flex items-center gap-4">
             <span className="rule-glow block w-16" />
