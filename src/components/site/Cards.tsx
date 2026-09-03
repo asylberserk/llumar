@@ -62,7 +62,7 @@ export function ProductCard({ product }: { product: Product }) {
     <Link
       to="/products/$slug"
       params={{ slug: product.slug }}
-      className="card-lift group flex flex-col border border-border bg-surface hover:border-primary/60"
+      className="card-lift card-shimmer group relative flex flex-col overflow-hidden border border-border/60 glass-card hover:border-primary/40"
     >
       <div className="media-zoom aspect-square w-full">
         <img
@@ -72,19 +72,22 @@ export function ProductCard({ product }: { product: Product }) {
           className="size-full object-cover"
         />
       </div>
-      <div className="flex flex-1 flex-col p-5">
+      <div className="relative flex flex-1 flex-col p-5">
         <span className="text-[0.65rem] tracking-[0.2em] text-muted-foreground uppercase">
           {product.brand}
         </span>
         <h3 className="mt-2 font-display text-base font-medium">{product.name}</h3>
         <p className="mt-2 flex-1 text-sm text-muted-foreground">{product.category}</p>
-        <div className="mt-5 flex items-center justify-between text-xs">
-          <span className="text-primary">
+        <div className="mt-5 flex items-center justify-between text-xs transition-transform duration-500 group-hover:-translate-y-0.5">
+          <span className="font-display text-primary">
             {product.price === null
               ? "Цена по запросу"
               : `${product.price.toLocaleString("ru-RU")} сом`}
           </span>
-          <span className="text-muted-foreground">{availabilityLabel[product.availability]}</span>
+          <span className="inline-flex items-center gap-1.5 text-muted-foreground">
+            {availabilityLabel[product.availability]}
+            <ArrowUpRight className="size-3.5 opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:opacity-100" />
+          </span>
         </div>
       </div>
     </Link>
