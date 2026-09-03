@@ -497,6 +497,14 @@
   background: color-mix(in oklab, var(--champagne) 16%, rgba(255, 255, 255, 0.08));
 }
 
+@utility glass-btn-2gis {
+  &:hover {
+    background: color-mix(in oklab, oklch(0.55 0.2 145) 82%, transparent);
+    border-color: color-mix(in oklab, oklch(0.7 0.16 145) 55%, transparent);
+    color: oklch(0.99 0 0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .glass-btn,
   .glass-btn::after {
