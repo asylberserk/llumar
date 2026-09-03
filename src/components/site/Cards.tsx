@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import type { FilmCategory, Product, Project, Service } from "@/data/types";
 import { availabilityLabel } from "@/data/products";
 
