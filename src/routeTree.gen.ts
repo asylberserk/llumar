@@ -14,9 +14,11 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as ContactsRouteImport } from './routes/contacts'
 import { Route as FilmsRouteImport } from './routes/films'
 import { Route as LlumarRouteImport } from './routes/llumar'
+import { Route as McpRouteImport } from './routes/mcp'
 import { Route as ProductsRouteImport } from './routes/products'
 import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
 import { Route as ProductsSlugRouteImport } from './routes/products.$slug'
 import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
@@ -49,6 +51,11 @@ const LlumarRoute = LlumarRouteImport.update({
   path: '/llumar',
   getParentRoute: () => rootRouteImport,
 } as any)
+const McpRoute = McpRouteImport.update({
+  id: '/mcp',
+  path: '/mcp',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProductsRoute = ProductsRouteImport.update({
   id: '/products',
   path: '/products',
@@ -64,6 +71,12 @@ const ServicesRoute = ServicesRouteImport.update({
   path: '/services',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Char91DotwellKnownChar93OauthProtectedResourceRoute =
+  Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
+    id: '/.well-known/oauth-protected-resource',
+    path: '/.well-known/oauth-protected-resource',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ProductsIndexRoute = ProductsIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -101,9 +114,11 @@ export interface FileRoutesByFullPath {
   '/contacts': typeof ContactsRoute
   '/films': typeof FilmsRoute
   '/llumar': typeof LlumarRoute
+  '/mcp': typeof McpRoute
   '/products': typeof ProductsRouteWithChildren
   '/projects': typeof ProjectsRouteWithChildren
   '/services': typeof ServicesRouteWithChildren
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
@@ -117,6 +132,8 @@ export interface FileRoutesByTo {
   '/contacts': typeof ContactsRoute
   '/films': typeof FilmsRoute
   '/llumar': typeof LlumarRoute
+  '/mcp': typeof McpRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
@@ -131,9 +148,11 @@ export interface FileRoutesById {
   '/contacts': typeof ContactsRoute
   '/films': typeof FilmsRoute
   '/llumar': typeof LlumarRoute
+  '/mcp': typeof McpRoute
   '/products': typeof ProductsRouteWithChildren
   '/projects': typeof ProjectsRouteWithChildren
   '/services': typeof ServicesRouteWithChildren
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
@@ -149,9 +168,11 @@ export interface FileRouteTypes {
     | '/contacts'
     | '/films'
     | '/llumar'
+    | '/mcp'
     | '/products'
     | '/projects'
     | '/services'
+    | '/.well-known/oauth-protected-resource'
     | '/products/$slug'
     | '/projects/$slug'
     | '/services/$slug'
@@ -165,6 +186,8 @@ export interface FileRouteTypes {
     | '/contacts'
     | '/films'
     | '/llumar'
+    | '/mcp'
+    | '/.well-known/oauth-protected-resource'
     | '/products/$slug'
     | '/projects/$slug'
     | '/services/$slug'
@@ -178,9 +201,11 @@ export interface FileRouteTypes {
     | '/contacts'
     | '/films'
     | '/llumar'
+    | '/mcp'
     | '/products'
     | '/projects'
     | '/services'
+    | '/.well-known/oauth-protected-resource'
     | '/products/$slug'
     | '/projects/$slug'
     | '/services/$slug'
@@ -195,9 +220,11 @@ export interface RootRouteChildren {
   ContactsRoute: typeof ContactsRoute
   FilmsRoute: typeof FilmsRoute
   LlumarRoute: typeof LlumarRoute
+  McpRoute: typeof McpRoute
   ProductsRoute: typeof ProductsRouteWithChildren
   ProjectsRoute: typeof ProjectsRouteWithChildren
   ServicesRoute: typeof ServicesRouteWithChildren
+  Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -237,6 +264,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LlumarRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mcp': {
+      id: '/mcp'
+      path: '/mcp'
+      fullPath: '/mcp'
+      preLoaderRoute: typeof McpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/products': {
       id: '/products'
       path: '/products'
@@ -256,6 +290,13 @@ declare module '@tanstack/react-router' {
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/.well-known/oauth-protected-resource': {
+      id: '/.well-known/oauth-protected-resource'
+      path: '/.well-known/oauth-protected-resource'
+      fullPath: '/.well-known/oauth-protected-resource'
+      preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/products/': {
@@ -351,9 +392,12 @@ const rootRouteChildren: RootRouteChildren = {
   ContactsRoute: ContactsRoute,
   FilmsRoute: FilmsRoute,
   LlumarRoute: LlumarRoute,
+  McpRoute: McpRoute,
   ProductsRoute: ProductsRouteWithChildren,
   ProjectsRoute: ProjectsRouteWithChildren,
   ServicesRoute: ServicesRouteWithChildren,
+  Char91DotwellKnownChar93OauthProtectedResourceRoute:
+    Char91DotwellKnownChar93OauthProtectedResourceRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
