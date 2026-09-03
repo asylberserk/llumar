@@ -1,11 +1,11 @@
 {
   "version": 1,
-  "asset_id": "0cf14dc6-e57b-4a55-aa44-c02ca3fa52b0",
+  "asset_id": "1862d49d-d307-4ea4-bd9d-7ee2e61409a3",
   "project_id": "601e01bc-a050-4cf4-8fe6-0910568c9e7c",
-  "url": "/__l5e/assets-v1/0cf14dc6-e57b-4a55-aa44-c02ca3fa52b0/site-bg-hq.jpg",
-  "r2_key": "a/v1/601e01bc-a050-4cf4-8fe6-0910568c9e7c/0cf14dc6-e57b-4a55-aa44-c02ca3fa52b0/site-bg-hq.jpg",
-  "original_filename": "site-bg-hq.jpg",
-  "size": 1329080,
-  "content_type": "image/png",
-  "created_at": "2026-09-03T12:07:05Z"
+  "url": "/__l5e/assets-v1/1862d49d-d307-4ea4-bd9d-7ee2e61409a3/site-bg-canyon.png",
+  "r2_key": "a/v1/601e01bc-a050-4cf4-8fe6-0910568c9e7c/1862d49d-d307-4ea4-bd9d-7ee2e61409a3/site-bg-canyon.png",
+  "original_filename": "site-bg-canyon.png",
+  "size": 163908,
+  "content_type": "image/webp",
+  "created_at": "2026-09-03T13:49:23Z"
 }

@@ -519,28 +519,23 @@
 
 .site-bg-image {
   position: absolute;
-  inset: -40% 0 -20% 0;
+  top: 0;
+  left: 0;
+  right: 0;
   background-position: center top;
-  background-size: cover;
+  background-size: 100% 100%;
   background-repeat: no-repeat;
   will-change: transform;
-  opacity: 0.8;
-  filter: saturate(0.8) brightness(0.9);
+  opacity: 0.95;
 }
 
 .site-bg-veil {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(
-      120% 80% at 50% 0%,
-      transparent 0%,
-      color-mix(in oklab, var(--background) 40%, transparent) 55%,
-      color-mix(in oklab, var(--background) 75%, transparent) 100%
-    ),
-    linear-gradient(
-      to bottom,
-      color-mix(in oklab, var(--background) 55%, transparent) 0%,
-      color-mix(in oklab, var(--background) 65%, transparent) 100%
-    );
+  background: linear-gradient(
+    to bottom,
+    color-mix(in oklab, var(--background) 45%, transparent) 0%,
+    color-mix(in oklab, var(--background) 40%, transparent) 60%,
+    color-mix(in oklab, var(--background) 22%, transparent) 100%
+  );
 }
