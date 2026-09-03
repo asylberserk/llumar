@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowDown } from "lucide-react";
 import heroCar from "@/assets/hero-car.jpg";
+import logo from "@/assets/luxfil-logo.png.asset.json";
 import rolls from "@/assets/film-rolls.jpg";
 import studio from "@/assets/studio.jpg";
 import tools from "@/assets/tools.jpg";
