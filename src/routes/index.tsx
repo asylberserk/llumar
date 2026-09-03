@@ -46,42 +46,47 @@ function Index() {
 
   return (
     <>
-      <section className="relative flex min-h-[92vh] items-end overflow-hidden">
+      <section className="relative flex min-h-[94vh] items-end overflow-hidden">
         <img
           src={heroCar}
           alt="Автомобиль в детейлинг-студии LUXFIL"
           width={1920}
           height={1080}
-          className="absolute inset-0 size-full object-cover"
+          className="absolute inset-0 size-full scale-105 object-cover"
         />
-        <div className="absolute inset-0 bg-background/70" />
+        <div className="hero-veil absolute inset-0" />
         <div className="shell relative w-full pt-40 pb-20 md:pb-28">
-          <p className="eyebrow mb-6">Бишкек · Кыргызстан</p>
-          <h1 className="max-w-4xl font-display text-4xl leading-[1.02] font-medium sm:text-6xl md:text-7xl">
+          <div className="flex items-center gap-4">
+            <span className="rule-glow block w-16" />
+            <p className="eyebrow">Бишкек · Кыргызстан</p>
+          </div>
+          <h1 className="mt-7 max-w-5xl font-display text-[clamp(2.4rem,8vw,6.5rem)] leading-[0.95] font-medium">
             Технологии защиты.
             <br />
-            Без компромиссов.
+            <span className="text-primary">Без компромиссов.</span>
           </h1>
-          <p className="mt-8 max-w-xl text-base leading-relaxed text-muted-foreground">
-            Детейлинг, защитные и тонировочные пленки, поставка профессионального инструмента и
-            материалов. Официальный дистрибьютор LLumar.
-          </p>
-          <div className="mt-10 flex flex-wrap gap-4">
-            <LuxButton onClick={() => consult.open()}>Оставить заявку</LuxButton>
-            <LuxLink to="/services" variant="outline">
-              Услуги
-            </LuxLink>
+          <div className="mt-10 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+            <p className="max-w-xl text-base leading-relaxed text-muted-foreground">
+              Детейлинг, защитные и тонировочные пленки, поставка профессионального инструмента и
+              материалов. Официальный дистрибьютор LLumar.
+            </p>
+            <div className="flex flex-wrap items-center gap-6">
+              <LuxButton onClick={() => consult.open()}>Оставить заявку</LuxButton>
+              <LuxLink to="/services" variant="ghost">
+                Услуги
+              </LuxLink>
+            </div>
           </div>
           <div className="mt-16 hidden items-center gap-3 text-xs tracking-[0.2em] text-muted-foreground uppercase md:flex">
-            <ArrowDown className="size-4" /> Листайте
+            <ArrowDown className="size-4 animate-bounce" /> Листайте
           </div>
         </div>
       </section>
 
       <section className="border-b border-border py-16 md:py-20">
-        <div className="shell grid gap-10 md:grid-cols-4">
+        <div className="shell grid gap-px overflow-hidden border border-border bg-border md:grid-cols-4">
           {values.map((v, i) => (
-            <Reveal key={v.title} delay={i * 80}>
+            <Reveal key={v.title} delay={i * 80} className="bg-background p-7 md:p-8">
               <h2 className="font-display text-sm tracking-[0.18em] text-primary uppercase">
                 {v.title}
               </h2>
