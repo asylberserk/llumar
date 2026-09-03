@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowDown } from "lucide-react";
 import heroCar from "@/assets/hero-car.jpg";
+import logo from "@/assets/luxfil-logo.png.asset.json";
 import rolls from "@/assets/film-rolls.jpg";
 import studio from "@/assets/studio.jpg";
 import tools from "@/assets/tools.jpg";
@@ -60,7 +61,14 @@ function Index() {
             <span className="rule-glow block w-16" />
             <p className="eyebrow">Бишкек · Кыргызстан</p>
           </div>
-          <h1 className="mt-7 max-w-5xl font-display text-[clamp(2.4rem,8vw,6.5rem)] leading-[0.95] font-medium">
+          <img
+            src={logo.url}
+            alt="LUXFIL"
+            width={1007}
+            height={464}
+            className="mt-8 w-[180px] max-w-full md:w-[300px]"
+          />
+          <h1 className="mt-6 max-w-5xl font-display text-[clamp(2.4rem,8vw,6.5rem)] leading-[0.95] font-medium">
             Технологии защиты.
             <br />
             <span className="text-primary">Без компромиссов.</span>
