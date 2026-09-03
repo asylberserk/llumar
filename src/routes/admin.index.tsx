@@ -8,6 +8,8 @@ import {
   deleteProduct,
   fetchAllProducts,
   slugify,
+  uploadProductImage,
+  getImagePreviewUrl,
   updateProduct,
   type AdminProductRow,
 } from "@/lib/adminProducts";
@@ -89,14 +91,36 @@ function AdminPanel() {
     enabled: isAdmin,
   });
 
+  const [uploading, setUploading] = useState(false);
+  const [preview, setPreview] = useState("");
+
+  async function handleImageFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    setError(null);
+    try {
+      const path = await uploadProductImage(file);
+      setForm((f) => ({ ...f, image_url: path }));
+      setPreview(await getImagePreviewUrl(path));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Не удалось загрузить изображение");
+    } finally {
+      setUploading(false);
+      e.target.value = "";
+    }
+  }
+
   function resetForm() {
     setForm(emptyForm);
+    setPreview("");
     setEditingId(null);
     setError(null);
   }
 
   function startEdit(row: AdminProductRow) {
     setEditingId(row.id);
+    setPreview(row.image_url ?? "");
     setError(null);
     setForm({
       name: row.name,
@@ -106,7 +130,7 @@ function AdminPanel() {
       description: row.description,
       price: row.price === null ? "" : String(row.price),
       availability: row.availability,
-      image_url: row.image_url ?? "",
+      image_url: row.image_path ?? row.image_url ?? "",
       application: row.application ?? "",
       tags: (row.tags ?? []).join(", "),
       published: row.published,
@@ -282,13 +306,43 @@ function AdminPanel() {
                 className={inputClass}
               />
             </Field>
-            <Field label="Ссылка на изображение">
-              <input
-                value={form.image_url}
-                onChange={(e) => setForm({ ...form, image_url: e.target.value })}
-                placeholder="https://…"
-                className={inputClass}
-              />
+            <Field label="Изображение товара">
+              <div className="space-y-3">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageFile}
+                  className="block w-full text-sm file:mr-3 file:rounded-md file:border-0 file:bg-foreground file:px-3 file:py-2 file:text-background file:text-sm"
+                />
+                {uploading ? (
+                  <p className="text-xs text-muted-foreground">Загрузка изображения…</p>
+                ) : null}
+                {preview ? (
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={preview}
+                      alt="Предпросмотр"
+                      className="h-20 w-20 rounded-md object-cover border border-border"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setForm((f) => ({ ...f, image_url: "" }));
+                        setPreview("");
+                      }}
+                      className="text-xs underline text-muted-foreground"
+                    >
+                      Удалить
+                    </button>
+                  </div>
+                ) : null}
+                <input
+                  value={form.image_url}
+                  onChange={(e) => setForm({ ...form, image_url: e.target.value })}
+                  placeholder="или вставьте ссылку https://…"
+                  className={inputClass}
+                />
+              </div>
             </Field>
             <Field label="Применение">
               <input

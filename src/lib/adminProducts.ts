@@ -15,6 +15,8 @@ export interface AdminProductRow {
   application: string | null;
   tags: string[];
   published: boolean;
+  /** Original stored value (storage path) before signed-URL resolution. */
+  image_path?: string | null;
 }
 
 export interface AdminProductInput {
@@ -49,6 +51,53 @@ export function rowToProduct(row: AdminProductRow, fallbackImage: string): Produ
   };
 }
 
+export const PRODUCT_IMAGE_BUCKET = "product-images";
+
+function isExternalUrl(value: string) {
+  return /^(https?:|data:|blob:|\/)/i.test(value);
+}
+
+/** Turns stored storage paths into usable (signed) image URLs. */
+async function withResolvedImages(rows: AdminProductRow[]): Promise<AdminProductRow[]> {
+  const paths = Array.from(
+    new Set(rows.map((r) => r.image_url).filter((v): v is string => !!v && !isExternalUrl(v))),
+  );
+  if (paths.length === 0) return rows;
+
+  const { data } = await supabase.storage
+    .from(PRODUCT_IMAGE_BUCKET)
+    .createSignedUrls(paths, 60 * 60 * 24 * 7);
+
+  const map = new Map<string, string>();
+  for (const item of data ?? []) {
+    if (item.path && item.signedUrl) map.set(item.path, item.signedUrl);
+  }
+  return rows.map((row) =>
+    row.image_url && map.has(row.image_url)
+      ? { ...row, image_path: row.image_url, image_url: map.get(row.image_url)! }
+      : row,
+  );
+}
+
+/** Uploads an image file and returns the storage path to persist. */
+export async function uploadProductImage(file: File): Promise<string> {
+  const ext = (file.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z0-9]/g, "");
+  const path = `products/${crypto.randomUUID()}.${ext}`;
+  const { error } = await supabase.storage
+    .from(PRODUCT_IMAGE_BUCKET)
+    .upload(path, file, { cacheControl: "3600", upsert: false, contentType: file.type });
+  if (error) throw error;
+  return path;
+}
+
+export async function getImagePreviewUrl(pathOrUrl: string): Promise<string> {
+  if (!pathOrUrl || isExternalUrl(pathOrUrl)) return pathOrUrl;
+  const { data } = await supabase.storage
+    .from(PRODUCT_IMAGE_BUCKET)
+    .createSignedUrl(pathOrUrl, 60 * 60 * 24 * 7);
+  return data?.signedUrl ?? "";
+}
+
 export async function fetchPublishedProducts(): Promise<AdminProductRow[]> {
   const { data, error } = await supabase
     .from("admin_products")
@@ -56,7 +105,7 @@ export async function fetchPublishedProducts(): Promise<AdminProductRow[]> {
     .eq("published", true)
     .order("created_at", { ascending: false });
   if (error) throw error;
-  return (data ?? []) as unknown as AdminProductRow[];
+  return withResolvedImages((data ?? []) as unknown as AdminProductRow[]);
 }
 
 export async function fetchAllProducts(): Promise<AdminProductRow[]> {
@@ -65,8 +114,9 @@ export async function fetchAllProducts(): Promise<AdminProductRow[]> {
     .select("*")
     .order("created_at", { ascending: false });
   if (error) throw error;
-  return (data ?? []) as unknown as AdminProductRow[];
+  return withResolvedImages((data ?? []) as unknown as AdminProductRow[]);
 }
+
 
 export async function createProduct(input: AdminProductInput) {
   const { error } = await supabase.from("admin_products").insert(input);
