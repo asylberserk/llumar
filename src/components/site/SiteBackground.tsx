@@ -20,7 +20,7 @@ export function SiteBackground() {
     let raf = 0;
     const update = () => {
       raf = 0;
-      el.style.transform = `translate3d(0, ${window.scrollY * 0.35}px, 0)`;
+      el.style.transform = `translate3d(0, ${-window.scrollY * 0.35}px, 0)`;
     };
     const onScroll = () => {
       if (!raf) raf = window.requestAnimationFrame(update);
