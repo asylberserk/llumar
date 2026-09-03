@@ -10,7 +10,7 @@ export function PageHeader({
   description?: string;
 }) {
   return (
-    <header className="relative overflow-hidden border-b border-border pt-36 pb-16 md:pt-44 md:pb-24">
+    <header className="relative overflow-hidden pt-36 pb-16 md:pt-44 md:pb-24">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-64 bg-[radial-gradient(60%_100%_at_20%_0%,color-mix(in_oklab,var(--champagne)_10%,transparent),transparent_70%)]" />
       <div className="shell relative">
         <Reveal>

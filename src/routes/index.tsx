@@ -83,10 +83,10 @@ function Index() {
         </div>
       </section>
 
-      <section className="border-b border-border py-16 md:py-20">
-        <div className="shell grid gap-px overflow-hidden border border-border bg-border md:grid-cols-4">
+      <section className="py-16 md:py-20">
+        <div className="shell grid gap-5 md:grid-cols-4">
           {values.map((v, i) => (
-            <Reveal key={v.title} delay={i * 80} className="bg-background/55 p-7 backdrop-blur-sm md:p-8">
+            <Reveal key={v.title} delay={i * 80} className="rounded-[28px] border border-border/60 bg-background/45 p-7 shadow-[0_18px_45px_-30px_rgba(0,0,0,0.9)] backdrop-blur-md md:p-8">
               <h2 className="font-display text-sm tracking-[0.18em] text-primary uppercase">
                 {v.title}
               </h2>
@@ -131,7 +131,7 @@ function Index() {
         </div>
       </section>
 
-      <section className="border-t border-border py-20 md:py-28">
+      <section className="py-20 md:py-28">
         <div className="shell">
           <SectionHeader
             eyebrow="Услуги"
@@ -153,7 +153,7 @@ function Index() {
         </div>
       </section>
 
-      <section className="border-t border-border py-20 md:py-28">
+      <section className="py-20 md:py-28">
         <div className="shell">
           <SectionHeader
             eyebrow="Пленки"
@@ -175,7 +175,7 @@ function Index() {
         </div>
       </section>
 
-      <section className="border-t border-border py-20 md:py-28">
+      <section className="py-20 md:py-28">
         <div className="shell">
           <SectionHeader
             eyebrow="Оборудование"
@@ -197,7 +197,7 @@ function Index() {
         </div>
       </section>
 
-      <section className="border-t border-border py-20 md:py-28">
+      <section className="py-20 md:py-28">
         <div className="shell grid items-center gap-12 md:grid-cols-12">
           <Reveal className="md:col-span-5">
             <p className="eyebrow mb-5">Почему LUXFIL</p>
@@ -229,7 +229,7 @@ function Index() {
         </div>
       </section>
 
-      <section className="border-t border-border py-20 md:py-28">
+      <section className="py-20 md:py-28">
         <div className="shell">
           <SectionHeader
             eyebrow="Работы"
@@ -250,7 +250,7 @@ function Index() {
         </div>
       </section>
 
-      <section className="relative overflow-hidden border-t border-border">
+      <section className="relative overflow-hidden">
         <img
           src={tools}
           alt="Профессиональный инструмент для монтажа пленки"
