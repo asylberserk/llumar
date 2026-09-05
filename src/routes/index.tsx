@@ -44,6 +44,15 @@ const values = [
 
 function Index() {
   const consult = useConsult();
+  const { data: dbRows = [] } = useQuery({
+    queryKey: ["catalog-products"],
+    queryFn: fetchPublishedProducts,
+  });
+  const featuredProducts = useMemo(
+    () => dbRows.map((row) => rowToProduct(row, defaultProductImage)),
+    [dbRows],
+  );
+
 
   return (
     <>
