@@ -16,6 +16,7 @@ export interface AdminProductRow {
   application: string | null;
   tags: string[];
   published: boolean;
+  specifications?: unknown;
   /** Original stored value (storage path) before signed-URL resolution. */
   image_path?: string | null;
 }
