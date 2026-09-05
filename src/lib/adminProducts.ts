@@ -162,3 +162,16 @@ export function slugify(value: string) {
     .replace(/^-+|-+$/g, "")
     .slice(0, 60);
 }
+
+export async function fetchPublishedProductBySlug(slug: string): Promise<AdminProductRow | null> {
+  const { data, error } = await supabase
+    .from("admin_products")
+    .select("*")
+    .eq("published", true)
+    .eq("slug", slug)
+    .maybeSingle();
+  if (error) throw error;
+  if (!data) return null;
+  const [row] = await withResolvedImages([data as unknown as AdminProductRow]);
+  return row ?? null;
+}
