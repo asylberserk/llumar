@@ -1,43 +1,82 @@
 import { formatPrice } from "@/lib/price";
-import { createFileRoute, notFound } from "@tanstack/react-router";
-import { availabilityLabel, getProduct, products } from "@/data/products";
+import { createFileRoute } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { useMemo } from "react";
+import { availabilityLabel } from "@/data/products";
+import { defaultProductImage } from "@/data/productImages";
+import {
+  fetchPublishedProductBySlug,
+  fetchPublishedProducts,
+  rowToProduct,
+} from "@/lib/adminProducts";
 import { ProductCard } from "@/components/site/Cards";
 import { Reveal } from "@/components/site/Reveal";
 import { LuxButton, LuxLink } from "@/components/site/LuxButton";
 import { useConsult } from "@/components/site/ConsultModal";
 
 export const Route = createFileRoute("/products/$slug")({
-  loader: ({ params }) => {
-    const product = getProduct(params.slug);
-    if (!product) throw notFound();
-    return { product };
-  },
-  head: ({ loaderData, params }) => {
-    if (!loaderData) {
-      return { meta: [{ title: "Товар недоступен — LUXFIL" }, { name: "robots", content: "noindex" }] };
-    }
-    const { product } = loaderData;
-    return {
-      meta: [
-        { title: `${product.name} — LUXFIL` },
-        { name: "description", content: product.description },
-        { property: "og:title", content: `${product.name} — LUXFIL` },
-        { property: "og:description", content: product.description },
-        { property: "og:type", content: "product" },
-        { property: "og:url", content: `/products/${params.slug}` },
-      ],
-      links: [{ rel: "canonical", href: `/products/${params.slug}` }],
-    };
-  },
+  head: ({ params }) => ({
+    meta: [
+      { title: `Товар — LUXFIL` },
+      {
+        name: "description",
+        content: "Позиция каталога LUXFIL: инструмент, химия и материалы для детейлинга.",
+      },
+      { property: "og:title", content: "Товар каталога — LUXFIL" },
+      {
+        property: "og:description",
+        content: "Позиция каталога LUXFIL: инструмент, химия и материалы для детейлинга.",
+      },
+      { property: "og:type", content: "product" },
+      { property: "og:url", content: `/products/${params.slug}` },
+    ],
+    links: [{ rel: "canonical", href: `/products/${params.slug}` }],
+  }),
   component: ProductDetail,
 });
 
 function ProductDetail() {
-  const { product } = Route.useLoaderData();
+  const { slug } = Route.useParams();
   const consult = useConsult();
-  const related = products
-    .filter((p) => p.category === product.category && p.slug !== product.slug)
-    .slice(0, 4);
+
+  const { data: row, isLoading } = useQuery({
+    queryKey: ["catalog-product", slug],
+    queryFn: () => fetchPublishedProductBySlug(slug),
+  });
+  const { data: allRows = [] } = useQuery({
+    queryKey: ["catalog-products"],
+    queryFn: fetchPublishedProducts,
+  });
+
+  const product = useMemo(
+    () => (row ? rowToProduct(row, defaultProductImage) : null),
+    [row],
+  );
+
+  const related = useMemo(() => {
+    if (!product) return [];
+    return allRows
+      .map((r) => rowToProduct(r, defaultProductImage))
+      .filter((p) => p.category === product.category && p.slug !== product.slug)
+      .slice(0, 4);
+  }, [allRows, product]);
+
+  if (!product) {
+    return (
+      <section className="pt-36 pb-24">
+        <div className="shell text-center">
+          <p className="text-sm text-muted-foreground">
+            {isLoading ? "Загрузка…" : "Позиция не найдена или снята с публикации."}
+          </p>
+          <div className="mt-8 flex justify-center">
+            <LuxLink to="/products" variant="outline">
+              В каталог
+            </LuxLink>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <>
