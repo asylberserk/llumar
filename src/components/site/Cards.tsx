@@ -34,12 +34,18 @@ export function ServiceCard({ service }: { service: Service }) {
 
 export function FilmCard({ film }: { film: FilmCategory }) {
   return (
-    <article className="group flex h-full flex-col">
+    <Link
+      to="/films/$slug"
+      params={{ slug: film.slug }}
+      className="group flex h-full flex-col"
+    >
       <div className="media-zoom aspect-[3/4] w-full overflow-hidden rounded-2xl">
         <img src={film.image} alt={film.title} loading="lazy" className="size-full object-cover" />
       </div>
       <div className="flex flex-1 flex-col pt-5">
-        <h3 className="font-display text-lg font-medium">{film.title}</h3>
+        <h3 className="font-display text-lg font-medium transition-colors group-hover:text-primary">
+          {film.title}
+        </h3>
         <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
           {film.description}
         </p>
@@ -47,9 +53,10 @@ export function FilmCard({ film }: { film: FilmCategory }) {
           {film.application}
         </p>
       </div>
-    </article>
+    </Link>
   );
 }
+
 
 export function ProductCard({ product }: { product: Product }) {
   const ref = useRef<HTMLAnchorElement>(null);

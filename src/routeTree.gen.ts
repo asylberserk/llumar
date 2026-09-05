@@ -23,6 +23,8 @@ import { Route as ServicesRouteImport } from './routes/services'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as FilmsIndexRouteImport } from './routes/films.index'
+import { Route as FilmsSlugRouteImport } from './routes/films.$slug'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
 import { Route as ProductsSlugRouteImport } from './routes/products.$slug'
 import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
@@ -102,6 +104,16 @@ const AdminLoginRoute = AdminLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => AdminRoute,
 } as any)
+const FilmsIndexRoute = FilmsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => FilmsRoute,
+} as any)
+const FilmsSlugRoute = FilmsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => FilmsRoute,
+} as any)
 const ProductsIndexRoute = ProductsIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -143,7 +155,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
   '/contacts': typeof ContactsRoute
-  '/films': typeof FilmsRoute
+  '/films': typeof FilmsRouteWithChildren
   '/llumar': typeof LlumarRoute
   '/login': typeof LoginRoute
   '/mcp': typeof McpRoute
@@ -152,10 +164,12 @@ export interface FileRoutesByFullPath {
   '/services': typeof ServicesRouteWithChildren
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/login': typeof AdminLoginRoute
+  '/films/$slug': typeof FilmsSlugRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/admin/': typeof AdminIndexRoute
+  '/films/': typeof FilmsIndexRoute
   '/products/': typeof ProductsIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/services/': typeof ServicesIndexRoute
@@ -165,16 +179,17 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contacts': typeof ContactsRoute
-  '/films': typeof FilmsRoute
   '/llumar': typeof LlumarRoute
   '/login': typeof LoginRoute
   '/mcp': typeof McpRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/login': typeof AdminLoginRoute
+  '/films/$slug': typeof FilmsSlugRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/admin': typeof AdminIndexRoute
+  '/films': typeof FilmsIndexRoute
   '/products': typeof ProductsIndexRoute
   '/projects': typeof ProjectsIndexRoute
   '/services': typeof ServicesIndexRoute
@@ -186,7 +201,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
   '/contacts': typeof ContactsRoute
-  '/films': typeof FilmsRoute
+  '/films': typeof FilmsRouteWithChildren
   '/llumar': typeof LlumarRoute
   '/login': typeof LoginRoute
   '/mcp': typeof McpRoute
@@ -195,10 +210,12 @@ export interface FileRoutesById {
   '/services': typeof ServicesRouteWithChildren
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/login': typeof AdminLoginRoute
+  '/films/$slug': typeof FilmsSlugRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/admin/': typeof AdminIndexRoute
+  '/films/': typeof FilmsIndexRoute
   '/products/': typeof ProductsIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/services/': typeof ServicesIndexRoute
@@ -220,10 +237,12 @@ export interface FileRouteTypes {
     | '/services'
     | '/.well-known/oauth-protected-resource'
     | '/admin/login'
+    | '/films/$slug'
     | '/products/$slug'
     | '/projects/$slug'
     | '/services/$slug'
     | '/admin/'
+    | '/films/'
     | '/products/'
     | '/projects/'
     | '/services/'
@@ -233,16 +252,17 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contacts'
-    | '/films'
     | '/llumar'
     | '/login'
     | '/mcp'
     | '/.well-known/oauth-protected-resource'
     | '/admin/login'
+    | '/films/$slug'
     | '/products/$slug'
     | '/projects/$slug'
     | '/services/$slug'
     | '/admin'
+    | '/films'
     | '/products'
     | '/projects'
     | '/services'
@@ -262,10 +282,12 @@ export interface FileRouteTypes {
     | '/services'
     | '/.well-known/oauth-protected-resource'
     | '/admin/login'
+    | '/films/$slug'
     | '/products/$slug'
     | '/projects/$slug'
     | '/services/$slug'
     | '/admin/'
+    | '/films/'
     | '/products/'
     | '/projects/'
     | '/services/'
@@ -277,7 +299,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AdminRoute: typeof AdminRouteWithChildren
   ContactsRoute: typeof ContactsRoute
-  FilmsRoute: typeof FilmsRoute
+  FilmsRoute: typeof FilmsRouteWithChildren
   LlumarRoute: typeof LlumarRoute
   LoginRoute: typeof LoginRoute
   McpRoute: typeof McpRoute
@@ -388,6 +410,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/films/': {
+      id: '/films/'
+      path: '/'
+      fullPath: '/films/'
+      preLoaderRoute: typeof FilmsIndexRouteImport
+      parentRoute: typeof FilmsRoute
+    }
+    '/films/$slug': {
+      id: '/films/$slug'
+      path: '/$slug'
+      fullPath: '/films/$slug'
+      preLoaderRoute: typeof FilmsSlugRouteImport
+      parentRoute: typeof FilmsRoute
+    }
     '/products/': {
       id: '/products/'
       path: '/'
@@ -452,6 +488,18 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface FilmsRouteChildren {
+  FilmsSlugRoute: typeof FilmsSlugRoute
+  FilmsIndexRoute: typeof FilmsIndexRoute
+}
+
+const FilmsRouteChildren: FilmsRouteChildren = {
+  FilmsSlugRoute: FilmsSlugRoute,
+  FilmsIndexRoute: FilmsIndexRoute,
+}
+
+const FilmsRouteWithChildren = FilmsRoute._addFileChildren(FilmsRouteChildren)
+
 interface ProductsRouteChildren {
   ProductsSlugRoute: typeof ProductsSlugRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
@@ -499,7 +547,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AdminRoute: AdminRouteWithChildren,
   ContactsRoute: ContactsRoute,
-  FilmsRoute: FilmsRoute,
+  FilmsRoute: FilmsRouteWithChildren,
   LlumarRoute: LlumarRoute,
   LoginRoute: LoginRoute,
   McpRoute: McpRoute,
