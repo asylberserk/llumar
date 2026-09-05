@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 
 import bgAsset from "@/assets/site-bg.jpg.asset.json";
 
-const IMAGE_RATIO = 1920 / 692;
+const IMAGE_RATIO = 2400 / 1792;
 
 /**
  * Fixed full-page background image. The parallax is calculated so the bottom
