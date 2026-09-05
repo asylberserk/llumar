@@ -39,10 +39,10 @@ function ProductsIndex() {
     queryFn: fetchPublishedProducts,
   });
 
-  const allProducts = useMemo(() => {
-    const fallback = products[0]?.image ?? "";
-    return [...dbRows.map((row) => rowToProduct(row, fallback)), ...products];
-  }, [dbRows]);
+  const allProducts = useMemo(
+    () => dbRows.map((row) => rowToProduct(row, defaultProductImage)),
+    [dbRows],
+  );
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
