@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+import { productImageBySlug } from "@/data/productImages";
 import type { Currency, Product } from "@/data/types";
 
 export interface AdminProductRow {
