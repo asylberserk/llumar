@@ -551,16 +551,27 @@
 /* 2GIS map widget */
 .map-2gis-container {
   background: transparent;
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
 }
 
 .map-2gis-container .leaflet-container {
   background: transparent;
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  z-index: 0;
+}
+
+.map-2gis-container .leaflet-pane,
+.map-2gis-container .leaflet-top,
+.map-2gis-container .leaflet-bottom {
+  z-index: 1;
 }
 
 .map-2gis-container .leaflet-control-container {
   display: none;
 }
+
 
 .map-pin {
   background: transparent;

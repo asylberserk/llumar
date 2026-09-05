@@ -285,8 +285,8 @@ function Index() {
                 className="group relative mx-auto block aspect-square w-full max-w-lg overflow-hidden rounded-full border border-border bg-surface shadow-2xl transition-colors hover:border-primary/60"
               >
                 <Map2GIS />
-                <span className="absolute inset-0 z-[500] cursor-pointer" />
-                <span className="glass-btn glass-btn-quiet glass-btn-2gis pointer-events-none absolute bottom-6 left-1/2 z-[501] inline-flex -translate-x-1/2 items-center gap-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                <span className="absolute inset-0 z-10 cursor-pointer" />
+                <span className="glass-btn glass-btn-quiet glass-btn-2gis pointer-events-none absolute bottom-6 left-1/2 z-20 inline-flex -translate-x-1/2 items-center gap-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                   <MapPin className="size-4" />
                   Открыть в 2GIS
                   <ExternalLink className="size-3.5" />
