@@ -34,6 +34,16 @@ export interface AdminProductInput {
   published: boolean;
 }
 
+function parseSpecs(value: unknown): Product["specifications"] {
+  if (!Array.isArray(value)) return [];
+  return value.flatMap((item) => {
+    if (!item || typeof item !== "object") return [];
+    const spec = item as { label?: unknown; value?: unknown };
+    if (typeof spec.label !== "string" || typeof spec.value !== "string") return [];
+    return [{ label: spec.label, value: spec.value }];
+  });
+}
+
 export function rowToProduct(row: AdminProductRow, fallbackImage: string): Product {
   return {
     id: row.id,
@@ -45,8 +55,8 @@ export function rowToProduct(row: AdminProductRow, fallbackImage: string): Produ
     price: row.price,
     currency: (row.currency === "USD" ? "USD" : "KGS") as Currency,
     availability: (row.availability as Product["availability"]) ?? "ask",
-    image: row.image_url || fallbackImage,
-    specifications: [],
+    image: row.image_url || productImageBySlug[row.slug] || fallbackImage,
+    specifications: parseSpecs(row.specifications),
     ...(row.application ? { application: row.application } : {}),
     tags: row.tags ?? [],
   };
