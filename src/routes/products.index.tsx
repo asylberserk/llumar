@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Search } from "lucide-react";
 import { useMemo, useState } from "react";
-import { productCategories, products } from "@/data/products";
+import { productCategories } from "@/data/products";
+import { defaultProductImage } from "@/data/productImages";
 import { ProductCard } from "@/components/site/Cards";
 import { PageHeader } from "@/components/site/PageHeader";
 import { Reveal } from "@/components/site/Reveal";
