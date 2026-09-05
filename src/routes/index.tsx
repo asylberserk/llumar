@@ -5,7 +5,10 @@ import rolls from "@/assets/film-rolls.jpg";
 import studio from "@/assets/studio.jpg";
 import { services } from "@/data/services";
 import { films } from "@/data/films";
-import { products } from "@/data/products";
+import { useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { defaultProductImage } from "@/data/productImages";
+import { fetchPublishedProducts, rowToProduct } from "@/lib/adminProducts";
 import { projects } from "@/data/projects";
 import { site } from "@/lib/site";
 import { FilmCard, ProductCard, ProjectCard, ServiceCard } from "@/components/site/Cards";
@@ -44,6 +47,15 @@ const values = [
 
 function Index() {
   const consult = useConsult();
+  const { data: dbRows = [] } = useQuery({
+    queryKey: ["catalog-products"],
+    queryFn: fetchPublishedProducts,
+  });
+  const featuredProducts = useMemo(
+    () => dbRows.map((row) => rowToProduct(row, defaultProductImage)),
+    [dbRows],
+  );
+
 
   return (
     <>
@@ -189,7 +201,7 @@ function Index() {
             }
           />
           <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {products.slice(0, 4).map((product, i) => (
+            {featuredProducts.slice(0, 4).map((product, i) => (
               <Reveal key={product.id} delay={i * 60}>
                 <ProductCard product={product} />
               </Reveal>

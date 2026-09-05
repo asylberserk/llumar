@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+import { productImageBySlug } from "@/data/productImages";
 import type { Currency, Product } from "@/data/types";
 
 export interface AdminProductRow {
@@ -15,6 +16,7 @@ export interface AdminProductRow {
   application: string | null;
   tags: string[];
   published: boolean;
+  specifications?: unknown;
   /** Original stored value (storage path) before signed-URL resolution. */
   image_path?: string | null;
 }
@@ -34,6 +36,16 @@ export interface AdminProductInput {
   published: boolean;
 }
 
+function parseSpecs(value: unknown): Product["specifications"] {
+  if (!Array.isArray(value)) return [];
+  return value.flatMap((item) => {
+    if (!item || typeof item !== "object") return [];
+    const spec = item as { label?: unknown; value?: unknown };
+    if (typeof spec.label !== "string" || typeof spec.value !== "string") return [];
+    return [{ label: spec.label, value: spec.value }];
+  });
+}
+
 export function rowToProduct(row: AdminProductRow, fallbackImage: string): Product {
   return {
     id: row.id,
@@ -45,8 +57,8 @@ export function rowToProduct(row: AdminProductRow, fallbackImage: string): Produ
     price: row.price,
     currency: (row.currency === "USD" ? "USD" : "KGS") as Currency,
     availability: (row.availability as Product["availability"]) ?? "ask",
-    image: row.image_url || fallbackImage,
-    specifications: [],
+    image: row.image_url || productImageBySlug[row.slug] || fallbackImage,
+    specifications: parseSpecs(row.specifications),
     ...(row.application ? { application: row.application } : {}),
     tags: row.tags ?? [],
   };
@@ -149,4 +161,17 @@ export function slugify(value: string) {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "")
     .slice(0, 60);
+}
+
+export async function fetchPublishedProductBySlug(slug: string): Promise<AdminProductRow | null> {
+  const { data, error } = await supabase
+    .from("admin_products")
+    .select("*")
+    .eq("published", true)
+    .eq("slug", slug)
+    .maybeSingle();
+  if (error) throw error;
+  if (!data) return null;
+  const [row] = await withResolvedImages([data as unknown as AdminProductRow]);
+  return row ?? null;
 }
