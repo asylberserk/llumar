@@ -1,11 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowDown, ExternalLink, MapPin } from "lucide-react";
+import { ArrowDown, ChevronLeft, ChevronRight, ExternalLink, MapPin } from "lucide-react";
 import logo from "@/assets/luxfil-logo.png.asset.json";
 import rolls from "@/assets/film-rolls.jpg";
 import studio from "@/assets/studio.jpg";
 import { services } from "@/data/services";
 import { films } from "@/data/films";
-import { useMemo } from "react";
+import { useMemo, useRef, useState, useEffect, useCallback } from "react";
+import type { Product } from "@/data/types";
 import { useQuery } from "@tanstack/react-query";
 import { defaultProductImage } from "@/data/productImages";
 import { fetchPublishedProducts, rowToProduct } from "@/lib/adminProducts";
@@ -37,6 +38,83 @@ export const Route = createFileRoute("/")({
   }),
   component: Index,
 });
+
+function ProductRail({ products }: { products: Product[] }) {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [canPrev, setCanPrev] = useState(false);
+  const [canNext, setCanNext] = useState(true);
+
+  const update = useCallback(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    setCanPrev(el.scrollLeft > 8);
+    setCanNext(el.scrollLeft + el.clientWidth < el.scrollWidth - 8);
+  }, []);
+
+  useEffect(() => {
+    update();
+    const el = trackRef.current;
+    if (!el) return;
+    el.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    return () => {
+      el.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, [update, products.length]);
+
+  const scrollBy = (dir: 1 | -1) => {
+    const el = trackRef.current;
+    if (!el) return;
+    el.scrollBy({ left: dir * Math.min(el.clientWidth * 0.85, 640), behavior: "smooth" });
+  };
+
+  return (
+    <div className="relative">
+      <div
+        ref={trackRef}
+        className="product-rail flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4"
+      >
+        {products.map((product) => (
+          <div key={product.id} className="w-64 shrink-0 snap-start sm:w-72">
+            <ProductCard product={product} />
+          </div>
+        ))}
+      </div>
+      <div
+        aria-hidden
+        className={`pointer-events-none absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-background/90 to-transparent transition-opacity duration-300 ${canNext ? "opacity-100" : "opacity-0"}`}
+      />
+      <div
+        aria-hidden
+        className={`pointer-events-none absolute inset-y-0 left-0 w-14 bg-gradient-to-r from-background/90 to-transparent transition-opacity duration-300 ${canPrev ? "opacity-100" : "opacity-0"}`}
+      />
+      <div className="mt-4 flex items-center gap-3">
+        <button
+          type="button"
+          onClick={() => scrollBy(-1)}
+          disabled={!canPrev}
+          aria-label="Листать влево"
+          className="glass-btn glass-btn-quiet inline-flex size-10 items-center justify-center rounded-full disabled:opacity-30"
+        >
+          <ChevronLeft className="size-5" />
+        </button>
+        <button
+          type="button"
+          onClick={() => scrollBy(1)}
+          disabled={!canNext}
+          aria-label="Листать вправо"
+          className="glass-btn glass-btn-quiet inline-flex size-10 items-center justify-center rounded-full disabled:opacity-30"
+        >
+          <ChevronRight className="size-5" />
+        </button>
+        <span className="text-xs tracking-[0.16em] text-muted-foreground uppercase">
+          Листайте горизонтально
+        </span>
+      </div>
+    </div>
+  );
+}
 
 const values = [
   { title: "Материалы", text: "Работаем с пленками LLumar и профессиональной химией." },
@@ -200,15 +278,10 @@ function Index() {
               </LuxLink>
             }
           />
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {featuredProducts
-              .filter((product) => product.category !== "Пленки")
-              .slice(0, 4)
-              .map((product, i) => (
-                <Reveal key={product.id} delay={i * 60}>
-                  <ProductCard product={product} />
-                </Reveal>
-              ))}
+          <div className="mt-14">
+            <ProductRail
+              products={featuredProducts.filter((product) => product.category !== "Пленки")}
+            />
           </div>
         </div>
       </section>

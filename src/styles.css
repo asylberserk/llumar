@@ -476,6 +476,21 @@
   }
 }
 
+.product-rail {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) transparent;
+}
+.product-rail::-webkit-scrollbar {
+  height: 5px;
+}
+.product-rail::-webkit-scrollbar-thumb {
+  background: color-mix(in oklch, var(--primary) 60%, transparent);
+  border-radius: 999px;
+}
+.product-rail::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 @utility glass-btn-quiet {
   border-color: rgba(255, 255, 255, 0.14);
   background: rgba(255, 255, 255, 0.05);
