@@ -5,8 +5,7 @@ import rolls from "@/assets/film-rolls.jpg";
 import studio from "@/assets/studio.jpg";
 import { services } from "@/data/services";
 import { films } from "@/data/films";
-import { useMemo, useRef, useState, useEffect, useCallback } from "react";
-import type { Product } from "@/data/types";
+import { useMemo, useRef, useState, useEffect, useCallback, type ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { defaultProductImage } from "@/data/productImages";
 import { fetchPublishedProducts, rowToProduct } from "@/lib/adminProducts";
@@ -39,7 +38,7 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-function ProductRail({ products }: { products: Product[] }) {
+function CardRail({ children, hint }: { children: ReactNode; hint?: string }) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [canPrev, setCanPrev] = useState(false);
   const [canNext, setCanNext] = useState(true);
@@ -61,7 +60,7 @@ function ProductRail({ products }: { products: Product[] }) {
       el.removeEventListener("scroll", update);
       window.removeEventListener("resize", update);
     };
-  }, [update, products.length]);
+  }, [update, children]);
 
   const scrollBy = (dir: 1 | -1) => {
     const el = trackRef.current;
@@ -75,11 +74,7 @@ function ProductRail({ products }: { products: Product[] }) {
         ref={trackRef}
         className="product-rail flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4"
       >
-        {products.map((product) => (
-          <div key={product.id} className="w-64 shrink-0 snap-start sm:w-72">
-            <ProductCard product={product} />
-          </div>
-        ))}
+        {children}
       </div>
       <div
         aria-hidden
@@ -109,7 +104,7 @@ function ProductRail({ products }: { products: Product[] }) {
           <ChevronRight className="size-5" />
         </button>
         <span className="text-xs tracking-[0.16em] text-muted-foreground uppercase">
-          Листайте горизонтально
+          {hint ?? "Листайте горизонтально"}
         </span>
       </div>
     </div>
@@ -234,12 +229,14 @@ function Index() {
               </LuxLink>
             }
           />
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {services.slice(0, 6).map((service, i) => (
-              <Reveal key={service.id} delay={i * 60}>
-                <ServiceCard service={service} />
-              </Reveal>
-            ))}
+          <div className="mt-14">
+            <CardRail>
+              {services.map((service) => (
+                <div key={service.id} className="w-72 shrink-0 snap-start sm:w-80">
+                  <ServiceCard service={service} />
+                </div>
+              ))}
+            </CardRail>
           </div>
         </div>
       </section>
@@ -256,12 +253,14 @@ function Index() {
               </LuxLink>
             }
           />
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {films.slice(0, 3).map((film, i) => (
-              <Reveal key={film.id} delay={i * 60}>
-                <FilmCard film={film} />
-              </Reveal>
-            ))}
+          <div className="mt-14">
+            <CardRail>
+              {films.map((film) => (
+                <div key={film.id} className="w-60 shrink-0 snap-start sm:w-72">
+                  <FilmCard film={film} />
+                </div>
+              ))}
+            </CardRail>
           </div>
         </div>
       </section>
@@ -279,9 +278,15 @@ function Index() {
             }
           />
           <div className="mt-14">
-            <ProductRail
-              products={featuredProducts.filter((product) => product.category !== "Пленки")}
-            />
+            <CardRail>
+              {featuredProducts
+                .filter((product) => product.category !== "Пленки")
+                .map((product) => (
+                  <div key={product.id} className="w-64 shrink-0 snap-start sm:w-72">
+                    <ProductCard product={product} />
+                  </div>
+                ))}
+            </CardRail>
           </div>
         </div>
       </section>
@@ -329,12 +334,14 @@ function Index() {
               </LuxLink>
             }
           />
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {projects.slice(0, 3).map((project, i) => (
-              <Reveal key={project.id} delay={i * 60}>
-                <ProjectCard project={project} />
-              </Reveal>
-            ))}
+          <div className="mt-14">
+            <CardRail>
+              {projects.map((project) => (
+                <div key={project.id} className="w-72 shrink-0 snap-start sm:w-96">
+                  <ProjectCard project={project} />
+                </div>
+              ))}
+            </CardRail>
           </div>
         </div>
       </section>
