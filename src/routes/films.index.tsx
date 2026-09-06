@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { films, filmApplications } from "@/data/films";
 import { FilmCard } from "@/components/site/Cards";
 import { PageHeader } from "@/components/site/PageHeader";
@@ -29,10 +29,9 @@ export const Route = createFileRoute("/films/")({
   component: FilmsPage,
 });
 
-function useScrollShift() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [style, setStyle] = useState<React.CSSProperties>({});
+function useScrollShift<T extends HTMLElement, U extends HTMLElement>() {
+  const containerRef = useRef<T>(null);
+  const trackRef = useRef<U>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -62,11 +61,9 @@ function useScrollShift() {
     const tick = () => {
       if (!reduced.matches) {
         current += (target - current) * 0.08;
-        if (Math.abs(target - current) > 0.05) {
-          setStyle({ transform: `translateX(${current.toFixed(2)}px)` });
-        }
+        track.style.transform = `translateX(${current.toFixed(2)}px)`;
       } else {
-        setStyle({});
+        track.style.transform = "";
       }
       raf = requestAnimationFrame(tick);
     };
@@ -85,21 +82,21 @@ function useScrollShift() {
     };
   }, []);
 
-  return { containerRef, trackRef, style };
+  return { containerRef, trackRef };
 }
 
 function BrandStrip({ items }: { items: FilmCategory[] }) {
-  const { containerRef, trackRef, style } = useScrollShift();
+  const { containerRef, trackRef } =
+    useScrollShift<HTMLDivElement, HTMLDivElement>();
 
   return (
     <div
       ref={containerRef}
-      className="relative overflow-hidden py-6 md:py-10"
+      className="relative -mx-5 overflow-hidden py-6 md:-mx-10 md:py-10"
     >
       <div
         ref={trackRef}
-        style={style}
-        className="film-track flex w-max items-stretch gap-5 will-change-transform md:gap-8"
+        className="film-track flex w-max items-stretch gap-5 px-5 will-change-transform md:gap-8 md:px-10"
       >
         {items.map((film) => (
           <div
