@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowDown, ChevronLeft, ChevronRight, ExternalLink, MapPin } from "lucide-react";
 import logo from "@/assets/luxfil-logo.png.asset.json";
 import rolls from "@/assets/film-rolls.jpg";
