@@ -273,7 +273,7 @@ function Index() {
                 </div>
               ))}
               <div className="w-60 shrink-0 snap-start sm:w-72">
-                <RailMoreCard to="/films" label="Все пленки" />
+                <RailMoreCard to="/films" label="Все пленки" className="aspect-[3/4] h-auto" />
               </div>
             </CardRail>
           </div>
