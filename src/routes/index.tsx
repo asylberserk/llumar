@@ -229,12 +229,14 @@ function Index() {
               </LuxLink>
             }
           />
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {services.slice(0, 6).map((service, i) => (
-              <Reveal key={service.id} delay={i * 60}>
-                <ServiceCard service={service} />
-              </Reveal>
-            ))}
+          <div className="mt-14">
+            <CardRail>
+              {services.map((service) => (
+                <div key={service.id} className="w-72 shrink-0 snap-start sm:w-80">
+                  <ServiceCard service={service} />
+                </div>
+              ))}
+            </CardRail>
           </div>
         </div>
       </section>
@@ -251,12 +253,14 @@ function Index() {
               </LuxLink>
             }
           />
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {films.slice(0, 3).map((film, i) => (
-              <Reveal key={film.id} delay={i * 60}>
-                <FilmCard film={film} />
-              </Reveal>
-            ))}
+          <div className="mt-14">
+            <CardRail>
+              {films.map((film) => (
+                <div key={film.id} className="w-60 shrink-0 snap-start sm:w-72">
+                  <FilmCard film={film} />
+                </div>
+              ))}
+            </CardRail>
           </div>
         </div>
       </section>
