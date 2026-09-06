@@ -278,9 +278,15 @@ function Index() {
             }
           />
           <div className="mt-14">
-            <ProductRail
-              products={featuredProducts.filter((product) => product.category !== "Пленки")}
-            />
+            <CardRail>
+              {featuredProducts
+                .filter((product) => product.category !== "Пленки")
+                .map((product) => (
+                  <div key={product.id} className="w-64 shrink-0 snap-start sm:w-72">
+                    <ProductCard product={product} />
+                  </div>
+                ))}
+            </CardRail>
           </div>
         </div>
       </section>
@@ -328,10 +334,14 @@ function Index() {
               </LuxLink>
             }
           />
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {projects.slice(0, 3).map((project, i) => (
-              <Reveal key={project.id} delay={i * 60}>
-                <ProjectCard project={project} />
+          <div className="mt-14">
+            <CardRail>
+              {projects.map((project) => (
+                <div key={project.id} className="w-72 shrink-0 snap-start sm:w-96">
+                  <ProjectCard project={project} />
+                </div>
+              ))}
+            </CardRail>
               </Reveal>
             ))}
           </div>
