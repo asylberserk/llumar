@@ -241,11 +241,11 @@ function Index() {
           <div className="mt-14">
             <CardRail>
               {services.slice(0, 6).map((service) => (
-                <div key={service.id} className="h-full w-72 shrink-0 snap-start sm:w-80">
+                <div key={service.id} className="w-72 shrink-0 snap-start sm:w-80">
                   <ServiceCard service={service} />
                 </div>
               ))}
-              <div className="h-full w-72 shrink-0 snap-start sm:w-80">
+              <div className="w-72 shrink-0 snap-start sm:w-80">
                 <RailMoreCard to="/services" label="Все услуги" />
               </div>
             </CardRail>
@@ -263,11 +263,11 @@ function Index() {
           <div className="mt-14">
             <CardRail>
               {films.slice(0, 6).map((film) => (
-                <div key={film.id} className="h-full w-60 shrink-0 snap-start sm:w-72">
+                <div key={film.id} className="w-60 shrink-0 snap-start sm:w-72">
                   <FilmCard film={film} />
                 </div>
               ))}
-              <div className="h-full w-60 shrink-0 snap-start sm:w-72">
+              <div className="w-60 shrink-0 snap-start sm:w-72">
                 <RailMoreCard to="/films" label="Все пленки" />
               </div>
             </CardRail>
@@ -288,11 +288,11 @@ function Index() {
                 .filter((product) => product.category !== "Пленки")
                 .slice(0, 6)
                 .map((product) => (
-                  <div key={product.id} className="h-full w-64 shrink-0 snap-start sm:w-72">
+                  <div key={product.id} className="w-64 shrink-0 snap-start sm:w-72">
                     <ProductCard product={product} />
                   </div>
                 ))}
-              <div className="h-full w-64 shrink-0 snap-start sm:w-72">
+              <div className="w-64 shrink-0 snap-start sm:w-72">
                 <RailMoreCard to="/products" label="В каталог" />
               </div>
             </CardRail>
@@ -338,11 +338,11 @@ function Index() {
           <div className="mt-14">
             <CardRail>
               {projects.slice(0, 6).map((project) => (
-                <div key={project.id} className="h-full w-72 shrink-0 snap-start sm:w-96">
+                <div key={project.id} className="w-72 shrink-0 snap-start sm:w-96">
                   <ProjectCard project={project} />
                 </div>
               ))}
-              <div className="h-full w-72 shrink-0 snap-start sm:w-96">
+              <div className="w-72 shrink-0 snap-start sm:w-96">
                 <RailMoreCard to="/projects" label="Все работы" />
               </div>
             </CardRail>
