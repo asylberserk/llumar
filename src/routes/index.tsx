@@ -278,15 +278,10 @@ function Index() {
               </LuxLink>
             }
           />
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {featuredProducts
-              .filter((product) => product.category !== "Пленки")
-              .slice(0, 4)
-              .map((product, i) => (
-                <Reveal key={product.id} delay={i * 60}>
-                  <ProductCard product={product} />
-                </Reveal>
-              ))}
+          <div className="mt-14">
+            <ProductRail
+              products={featuredProducts.filter((product) => product.category !== "Пленки")}
+            />
           </div>
         </div>
       </section>
