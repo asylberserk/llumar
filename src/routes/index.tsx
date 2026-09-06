@@ -117,9 +117,6 @@ function CardRail({ children, hint }: { children: ReactNode; hint?: string }) {
         >
           <ChevronRight className="size-5" />
         </button>
-        <span className="text-xs tracking-[0.16em] text-muted-foreground uppercase">
-          {hint ?? "Листайте горизонтально"}
-        </span>
       </div>
     </div>
   );
