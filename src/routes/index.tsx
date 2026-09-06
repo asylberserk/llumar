@@ -38,11 +38,19 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-function RailMoreCard({ to, label }: { to: string; label: string }) {
+function RailMoreCard({
+  to,
+  label,
+  className,
+}: {
+  to: string;
+  label: string;
+  className?: string;
+}) {
   return (
     <Link
       to={to}
-      className="glass-btn group flex h-full w-full flex-col items-center justify-center gap-4 rounded-[28px] px-6 text-center"
+      className={`glass-btn group flex w-full flex-col items-center justify-center gap-4 rounded-[28px] px-6 text-center ${className ?? "h-full"}`}
     >
       <span className="font-display text-lg leading-snug font-medium">{label}</span>
       <span className="glass-btn glass-btn-primary inline-flex size-11 items-center justify-center rounded-full transition-transform duration-300 group-hover:translate-x-1">
@@ -264,8 +272,8 @@ function Index() {
                   <FilmCard film={film} />
                 </div>
               ))}
-              <div className="w-60 shrink-0 snap-start sm:w-72">
-                <RailMoreCard to="/films" label="Все пленки" />
+              <div className="w-60 shrink-0 snap-start self-start sm:w-72">
+                <RailMoreCard to="/films" label="Все пленки" className="aspect-[3/4] h-auto" />
               </div>
             </CardRail>
           </div>
