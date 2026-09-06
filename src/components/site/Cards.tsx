@@ -10,7 +10,7 @@ export function ServiceCard({ service }: { service: Service }) {
     <Link
       to="/services/$slug"
       params={{ slug: service.slug }}
-      className="card-lift group flex flex-col border border-border bg-surface hover:border-primary/60"
+      className="card-lift group flex h-full flex-col border border-border bg-surface hover:border-primary/60"
     >
       <div className="media-zoom aspect-[4/3] w-full">
         <img
@@ -108,7 +108,7 @@ export function ProductCard({ product }: { product: Product }) {
   };
 
   return (
-    <div className="tilt-scene">
+    <div className="tilt-scene h-full">
       <Link
         ref={ref}
         to="/products/$slug"
@@ -152,7 +152,7 @@ export function ProjectCard({ project }: { project: Project }) {
     <Link
       to="/projects/$slug"
       params={{ slug: project.slug }}
-      className="card-lift group flex flex-col border border-border bg-surface hover:border-primary/60"
+      className="card-lift group flex h-full flex-col border border-border bg-surface hover:border-primary/60"
     >
       <div className="media-zoom aspect-[3/2] w-full">
         <img
