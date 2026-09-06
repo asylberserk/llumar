@@ -61,7 +61,7 @@ function CardRail({ children, hint }: { children: ReactNode; hint?: string }) {
       el.removeEventListener("scroll", update);
       window.removeEventListener("resize", update);
     };
-  }, [update, products.length]);
+  }, [update, children]);
 
   const scrollBy = (dir: 1 | -1) => {
     const el = trackRef.current;
@@ -75,11 +75,7 @@ function CardRail({ children, hint }: { children: ReactNode; hint?: string }) {
         ref={trackRef}
         className="product-rail flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4"
       >
-        {products.map((product) => (
-          <div key={product.id} className="w-64 shrink-0 snap-start sm:w-72">
-            <ProductCard product={product} />
-          </div>
-        ))}
+        {children}
       </div>
       <div
         aria-hidden
