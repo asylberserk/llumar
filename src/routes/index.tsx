@@ -237,19 +237,17 @@ function Index() {
             eyebrow="Услуги"
             title="Работа с автомобилем от подготовки до передачи"
             description="Защита кузова, тонирование, детейлинг и работа с интерьером."
-            action={
-              <LuxLink to="/services" variant="outline">
-                Все услуги
-              </LuxLink>
-            }
           />
           <div className="mt-14">
             <CardRail>
-              {services.map((service) => (
+              {services.slice(0, 6).map((service) => (
                 <div key={service.id} className="w-72 shrink-0 snap-start sm:w-80">
                   <ServiceCard service={service} />
                 </div>
               ))}
+              <div className="w-72 shrink-0 snap-start sm:w-80">
+                <RailMoreCard to="/services" label="Все услуги" />
+              </div>
             </CardRail>
           </div>
         </div>
@@ -261,19 +259,17 @@ function Index() {
             eyebrow="Пленки"
             title="Материалы под задачу"
             description="Категории пленок для кузова, стекол и архитектурного остекления."
-            action={
-              <LuxLink to="/films" variant="outline">
-                Все пленки
-              </LuxLink>
-            }
           />
           <div className="mt-14">
             <CardRail>
-              {films.map((film) => (
+              {films.slice(0, 6).map((film) => (
                 <div key={film.id} className="w-60 shrink-0 snap-start sm:w-72">
                   <FilmCard film={film} />
                 </div>
               ))}
+              <div className="w-60 shrink-0 snap-start sm:w-72">
+                <RailMoreCard to="/films" label="Все пленки" />
+              </div>
             </CardRail>
           </div>
         </div>
@@ -285,21 +281,20 @@ function Index() {
             eyebrow="Оборудование"
             title="Инструмент и расходники для студий"
             description="Ракели, ножи, химия и оборудование для монтажа пленки."
-            action={
-              <LuxLink to="/products" variant="outline">
-                В каталог
-              </LuxLink>
-            }
           />
           <div className="mt-14">
             <CardRail>
               {featuredProducts
                 .filter((product) => product.category !== "Пленки")
+                .slice(0, 6)
                 .map((product) => (
                   <div key={product.id} className="w-64 shrink-0 snap-start sm:w-72">
                     <ProductCard product={product} />
                   </div>
                 ))}
+              <div className="w-64 shrink-0 snap-start sm:w-72">
+                <RailMoreCard to="/products" label="В каталог" />
+              </div>
             </CardRail>
           </div>
         </div>
@@ -339,22 +334,17 @@ function Index() {
 
       <section className="py-20 md:py-28">
         <div className="shell">
-          <SectionHeader
-            eyebrow="Работы"
-            title="Примеры проектов"
-            action={
-              <LuxLink to="/projects" variant="outline">
-                Все работы
-              </LuxLink>
-            }
-          />
+          <SectionHeader eyebrow="Работы" title="Примеры проектов" />
           <div className="mt-14">
             <CardRail>
-              {projects.map((project) => (
+              {projects.slice(0, 6).map((project) => (
                 <div key={project.id} className="w-72 shrink-0 snap-start sm:w-96">
                   <ProjectCard project={project} />
                 </div>
               ))}
+              <div className="w-72 shrink-0 snap-start sm:w-96">
+                <RailMoreCard to="/projects" label="Все работы" />
+              </div>
             </CardRail>
           </div>
         </div>
