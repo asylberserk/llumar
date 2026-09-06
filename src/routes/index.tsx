@@ -52,7 +52,7 @@ function RailMoreCard({ to, label }: { to: string; label: string }) {
   );
 }
 
-function CardRail({ children, hint }: { children: ReactNode; hint?: string }) {
+function CardRail({ children }: { children: ReactNode }) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [canPrev, setCanPrev] = useState(false);
   const [canNext, setCanNext] = useState(true);
