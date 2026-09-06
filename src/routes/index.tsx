@@ -342,8 +342,6 @@ function Index() {
                 </div>
               ))}
             </CardRail>
-              </Reveal>
-            ))}
           </div>
         </div>
       </section>
