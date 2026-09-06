@@ -1,11 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowDown, ExternalLink, MapPin } from "lucide-react";
+import { ArrowDown, ChevronLeft, ChevronRight, ExternalLink, MapPin } from "lucide-react";
 import logo from "@/assets/luxfil-logo.png.asset.json";
 import rolls from "@/assets/film-rolls.jpg";
 import studio from "@/assets/studio.jpg";
 import { services } from "@/data/services";
 import { films } from "@/data/films";
-import { useMemo } from "react";
+import { useMemo, useRef, useState, useEffect, useCallback } from "react";
+import type { Product } from "@/data/types";
 import { useQuery } from "@tanstack/react-query";
 import { defaultProductImage } from "@/data/productImages";
 import { fetchPublishedProducts, rowToProduct } from "@/lib/adminProducts";
