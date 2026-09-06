@@ -39,7 +39,7 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-function ProductRail({ products }: { products: Product[] }) {
+function CardRail({ children, hint }: { children: ReactNode; hint?: string }) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [canPrev, setCanPrev] = useState(false);
   const [canNext, setCanNext] = useState(true);
