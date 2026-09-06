@@ -1,12 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { films, filmApplications } from "@/data/films";
 import { FilmCard } from "@/components/site/Cards";
 import { PageHeader } from "@/components/site/PageHeader";
+import { Reveal } from "@/components/site/Reveal";
 import { LuxButton } from "@/components/site/LuxButton";
 import { useConsult } from "@/components/site/ConsultModal";
 import { cn } from "@/lib/utils";
-import type { FilmCategory } from "@/data/types";
 
 export const Route = createFileRoute("/films/")({
   head: () => ({
@@ -15,7 +15,7 @@ export const Route = createFileRoute("/films/")({
       {
         name: "description",
         content:
-          "Защитные, тонировочные и архитектурные пленки: подбор по применению и технологии.",
+          "Защитные, тонировочные и архитектурные пленки LLumar: подбор по применению и технологии.",
       },
       { property: "og:title", content: "Каталог пленок LUXFIL" },
       {
@@ -28,88 +28,6 @@ export const Route = createFileRoute("/films/")({
   }),
   component: FilmsPage,
 });
-
-function useScrollShift<T extends HTMLElement, U extends HTMLElement>() {
-  const containerRef = useRef<T>(null);
-  const trackRef = useRef<U>(null);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const container = containerRef.current;
-    const track = trackRef.current;
-    if (!container || !track) return;
-
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let raf = 0;
-    let target = 0;
-    let current = 0;
-
-    const update = () => {
-      if (reduced.matches) {
-        target = 0;
-        return;
-      }
-      const overflow = track.scrollWidth - container.clientWidth;
-      const startOffset = Math.min(container.clientWidth * 0.18, 120);
-      const rect = container.getBoundingClientRect();
-      const travel = window.innerHeight + rect.height;
-      const scrolled = window.innerHeight - rect.top;
-      const progress = Math.min(Math.max(scrolled / travel, 0), 1);
-      target = startOffset - (startOffset + Math.max(overflow, 0)) * progress;
-    };
-
-    const tick = () => {
-      if (!reduced.matches) {
-        current += (target - current) * 0.08;
-        track.style.transform = `translateX(${current.toFixed(2)}px)`;
-      } else {
-        track.style.transform = "";
-      }
-      raf = requestAnimationFrame(tick);
-    };
-
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
-    reduced.addEventListener("change", update);
-    update();
-    raf = requestAnimationFrame(tick);
-
-    return () => {
-      window.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
-      reduced.removeEventListener("change", update);
-      cancelAnimationFrame(raf);
-    };
-  }, []);
-
-  return { containerRef, trackRef };
-}
-
-function BrandStrip({ items }: { items: FilmCategory[] }) {
-  const { containerRef, trackRef } =
-    useScrollShift<HTMLDivElement, HTMLDivElement>();
-
-  return (
-    <div
-      ref={containerRef}
-      className="relative -mx-5 overflow-hidden py-6 md:-mx-10 md:py-10"
-    >
-      <div
-        ref={trackRef}
-        className="film-track flex w-max items-stretch gap-5 px-5 will-change-transform md:gap-8 md:px-10"
-      >
-        {items.map((film) => (
-          <div
-            key={film.id}
-            className="w-[240px] flex-none sm:w-[260px] md:w-[300px] lg:w-[340px]"
-          >
-            <FilmCard film={film} />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
 
 function FilmsPage() {
   const [application, setApplication] = useState("Все");
@@ -144,16 +62,12 @@ function FilmsPage() {
             ))}
           </div>
 
-          <div className="mt-10 md:mt-14">
-            <div className="flex items-baseline justify-between">
-              <h2 className="font-display text-2xl font-medium tracking-tight md:text-3xl">
-                Бренды
-              </h2>
-              <span className="text-xs tracking-[0.14em] text-muted-foreground uppercase">
-                {filtered.length} из {films.length}
-              </span>
-            </div>
-            <BrandStrip items={filtered} />
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {filtered.map((film, i) => (
+              <Reveal key={film.id} delay={i * 50}>
+                <FilmCard film={film} />
+              </Reveal>
+            ))}
           </div>
 
           <div className="mt-16 border border-border bg-surface p-8 text-center md:p-12">
