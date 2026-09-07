@@ -51,10 +51,12 @@ function FilmBrandPage() {
   const brand = normalize(film.brand);
   const items = rows
     .map((row) => rowToProduct(row, defaultProductImage))
+    .filter((p) => p.category === "Пленки")
     .filter((p) => {
       const b = normalize(p.brand);
       return b === brand || b.includes(brand) || brand.includes(b);
     });
+
 
   return (
     <>
