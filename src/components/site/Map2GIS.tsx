@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 
-const CENTER: [number, number] = [42.868, 74.575];
-const ZOOM = 16;
+// ул. Максима Горького, 150 — координаты из карточки 2GIS
+const CENTER: [number, number] = [42.856873, 74.602358];
+const ZOOM = 17;
 
 export function Map2GIS() {
   const containerRef = useRef<HTMLDivElement>(null);
