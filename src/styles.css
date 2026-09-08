@@ -145,6 +145,17 @@
     transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+@utility hero-reveal {
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 @utility media-zoom {
   overflow: hidden;
   & img {
