@@ -17,6 +17,7 @@ import { Reveal } from "@/components/site/Reveal";
 import { LuxButton, LuxLink } from "@/components/site/LuxButton";
 import { useConsult } from "@/components/site/ConsultModal";
 import { Map2GIS } from "@/components/site/Map2GIS";
+import { useHeroScroll } from "@/hooks/useHeroScroll";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -164,7 +165,8 @@ function HeroReveal({
 
   return (
     <div
-      style={{ opacity, transform: `translateY(${translateY}px)`, willChange: "transform, opacity" }}
+      className="hero-reveal"
+      style={{ opacity, transform: `translateY(${translateY}px)` }}
     >
       {children}
     </div>
