@@ -131,8 +131,6 @@ function CardRail({ children }: { children: ReactNode }) {
   );
 }
 
-import { useHeroScroll } from "@/hooks/useHeroScroll";
-
 const values = [
   { title: "Материалы", text: "Работаем с пленками LLumar и профессиональной химией." },
   { title: "Условия", text: "Монтаж в закрытом помещении с контролем чистоты и света." },
