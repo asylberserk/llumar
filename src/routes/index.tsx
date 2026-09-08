@@ -17,6 +17,7 @@ import { Reveal } from "@/components/site/Reveal";
 import { LuxButton, LuxLink } from "@/components/site/LuxButton";
 import { useConsult } from "@/components/site/ConsultModal";
 import { Map2GIS } from "@/components/site/Map2GIS";
+import { useHeroScroll } from "@/hooks/useHeroScroll";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -137,39 +138,69 @@ const values = [
   { title: "Прозрачность", text: "Объем работ и материалы согласуем до начала." },
 ];
 
-function Index() {
-  const consult = useConsult();
-  const { data: dbRows = [] } = useQuery({
-    queryKey: ["catalog-products"],
-    queryFn: fetchPublishedProducts,
-  });
-  const featuredProducts = useMemo(
-    () => dbRows.map((row) => rowToProduct(row, defaultProductImage)),
-    [dbRows],
-  );
+function HeroReveal({
+  children,
+  progress,
+  start = 0,
+  end = 0.25,
+  y = 28,
+}: {
+  children: React.ReactNode;
+  progress: number;
+  start?: number;
+  end?: number;
+  y?: number;
+}) {
+  const reduced =
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduced) return <>{children}</>;
 
+  const t = Math.min(1, Math.max(0, (progress - start) / (end - start)));
+  const eased = 1 - Math.pow(1 - t, 3);
+  const opacity = eased;
+  const translateY = (1 - eased) * y;
 
   return (
-    <>
-      <section className="relative flex min-h-[94vh] items-end overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/45 to-transparent" />
-        <div className="shell relative w-full pt-40 pb-20 md:pb-28">
+    <div
+      className="hero-reveal"
+      style={{ opacity, transform: `translateY(${translateY}px)` }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function Hero() {
+  const consult = useConsult();
+  const progress = useHeroScroll();
+
+  return (
+    <section className="hero-section relative flex min-h-[94vh] items-end overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/45 to-transparent" />
+      <div className="shell relative w-full pt-40 pb-20 md:pb-28">
+        <HeroReveal progress={progress} start={0} end={0.18} y={20}>
           <div className="flex items-center gap-4">
             <span className="rule-glow block w-16" />
             <p className="eyebrow">Бишкек · Кыргызстан</p>
           </div>
-          <img
-            src={logo.url}
-            alt="LUXFIL"
-            width={1007}
-            height={464}
-            className="mt-8 w-[180px] max-w-full md:w-[300px]"
-          />
-          <h1 className="mt-6 max-w-5xl font-display text-[clamp(2.4rem,8vw,6.5rem)] leading-[0.95] font-medium">
-            Технологии защиты.
-            <br />
-            <span className="text-primary">Без компромиссов.</span>
-          </h1>
+        </HeroReveal>
+        <img
+          src={logo.url}
+          alt="LUXFIL"
+          width={1007}
+          height={464}
+          className="mt-8 w-[180px] max-w-full md:w-[300px]"
+        />
+        <h1 className="mt-6 max-w-5xl font-display text-[clamp(2.4rem,8vw,6.5rem)] leading-[0.95] font-medium">
+          <HeroReveal progress={progress} start={0.08} end={0.30} y={30}>
+            <span className="block">Технологии защиты.</span>
+          </HeroReveal>
+          <HeroReveal progress={progress} start={0.16} end={0.42} y={30}>
+            <span className="block text-primary">Без компромиссов.</span>
+          </HeroReveal>
+        </h1>
+        <HeroReveal progress={progress} start={0.28} end={0.55} y={24}>
           <div className="mt-10 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
             <p className="max-w-xl text-base leading-relaxed text-muted-foreground">
               Детейлинг, защитные и тонировочные пленки, поставка профессионального инструмента и
@@ -182,11 +213,31 @@ function Index() {
               </LuxLink>
             </div>
           </div>
+        </HeroReveal>
+        <HeroReveal progress={progress} start={0.55} end={0.85} y={16}>
           <div className="mt-16 hidden items-center gap-3 text-xs tracking-[0.2em] text-muted-foreground uppercase md:flex">
             <ArrowDown className="size-4 animate-bounce" /> Листайте
           </div>
-        </div>
-      </section>
+        </HeroReveal>
+      </div>
+    </section>
+  );
+}
+
+function Index() {
+  const { data: dbRows = [] } = useQuery({
+    queryKey: ["catalog-products"],
+    queryFn: fetchPublishedProducts,
+  });
+  const featuredProducts = useMemo(
+    () => dbRows.map((row) => rowToProduct(row, defaultProductImage)),
+    [dbRows],
+  );
+
+
+  return (
+    <>
+      <Hero />
 
       <section className="py-16 md:py-20">
         <div className="shell grid gap-5 md:grid-cols-4">
