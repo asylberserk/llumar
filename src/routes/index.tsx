@@ -225,7 +225,6 @@ function Hero() {
 }
 
 function Index() {
-  const consult = useConsult();
   const { data: dbRows = [] } = useQuery({
     queryKey: ["catalog-products"],
     queryFn: fetchPublishedProducts,
@@ -238,42 +237,7 @@ function Index() {
 
   return (
     <>
-      <section className="relative flex min-h-[94vh] items-end overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/45 to-transparent" />
-        <div className="shell relative w-full pt-40 pb-20 md:pb-28">
-          <div className="flex items-center gap-4">
-            <span className="rule-glow block w-16" />
-            <p className="eyebrow">Бишкек · Кыргызстан</p>
-          </div>
-          <img
-            src={logo.url}
-            alt="LUXFIL"
-            width={1007}
-            height={464}
-            className="mt-8 w-[180px] max-w-full md:w-[300px]"
-          />
-          <h1 className="mt-6 max-w-5xl font-display text-[clamp(2.4rem,8vw,6.5rem)] leading-[0.95] font-medium">
-            Технологии защиты.
-            <br />
-            <span className="text-primary">Без компромиссов.</span>
-          </h1>
-          <div className="mt-10 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-            <p className="max-w-xl text-base leading-relaxed text-muted-foreground">
-              Детейлинг, защитные и тонировочные пленки, поставка профессионального инструмента и
-              материалов. Официальный дистрибьютор LLumar.
-            </p>
-            <div className="flex flex-wrap items-center gap-6">
-              <LuxButton onClick={() => consult.open()}>Оставить заявку</LuxButton>
-              <LuxLink to="/services" variant="ghost">
-                Услуги
-              </LuxLink>
-            </div>
-          </div>
-          <div className="mt-16 hidden items-center gap-3 text-xs tracking-[0.2em] text-muted-foreground uppercase md:flex">
-            <ArrowDown className="size-4 animate-bounce" /> Листайте
-          </div>
-        </div>
-      </section>
+      <Hero />
 
       <section className="py-16 md:py-20">
         <div className="shell grid gap-5 md:grid-cols-4">
